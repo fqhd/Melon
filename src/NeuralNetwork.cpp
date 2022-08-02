@@ -68,6 +68,6 @@ float* NeuralNetwork::predict(float* inputs, int n){
         layerOffset += model[i - 1];
     }
 
-    return realtimeData + (layerOffset - model[numLayers - 1]);
+    return realtimeData + layerOffset;
 }
 
