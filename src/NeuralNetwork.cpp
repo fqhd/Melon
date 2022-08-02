@@ -1,6 +1,6 @@
-#include "Agent/NeuralNetwork.hpp"
+#include <Agent/NeuralNetwork.hpp>
 #include <iostream>
 
-NeuralNetwork::NeuralNetwork(const std::vector<int>& model){
+NeuralNetwork::NeuralNetwork(int* model, int numLayers){
     std::cout << "Configuring neural network" << std::endl;
 }

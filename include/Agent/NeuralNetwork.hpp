@@ -3,6 +3,6 @@
 
 class NeuralNetwork {
 public:
-    NeuralNetwork(const std::vector<int>& model);
+    NeuralNetwork(int* model, int numLayers);
     
 };
