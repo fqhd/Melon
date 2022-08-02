@@ -55,11 +55,9 @@ float* NeuralNetwork::predict(float* inputs, int n){
         int numWeightsInNode = model[i - 1];
         for(int j = 0; j < numNodesInLayer; j++){ // Loop through each node
             float result = 0.0f;
-            float bias = biases[biasIndex];
-            biasIndex++;
+            float bias = biases[biasIndex++];
             for(int k = 0; k < numWeightsInNode; k++){ // Loop through each weight
-                float weight = weights[weightIndex];
-                weightIndex++;
+                float weight = weights[weightIndex++];
                 result += weight * realtimeData[layerOffset + k];
             }
             result += bias;
