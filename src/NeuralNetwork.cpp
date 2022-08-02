@@ -1,7 +1,8 @@
 #include <Agent/NeuralNetwork.hpp>
 #include <iostream>
+#include <random>
 
-NeuralNetwork::NeuralNetwork(int* m, int n){
+NeuralNetwork::NeuralNetwork(int* m, int n, Random* random) {
     model = m; // TODO: fix this memory leak
     numLayers = n;
     numInputs = m[0];
@@ -24,6 +25,14 @@ NeuralNetwork::NeuralNetwork(int* m, int n){
         numNodes += m[i];
     }
     realtimeData = (float*)malloc(sizeof(float) * numNodes);
+
+    initRandomWeightsAndBiases(numWeights, numBiases, random);
+}
+
+void NeuralNetwork::initRandomWeightsAndBiases(int numWeights, int numBiases, Random* random){
+    for(int i = 0; i < numWeights; i++){
+        weights[i] = random->get(-1.0f, 1.0f);
+    }
 }
 
 NeuralNetwork::~NeuralNetwork(){

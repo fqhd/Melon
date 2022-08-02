@@ -1,16 +1,20 @@
 #pragma once
 #include <array>
+#include <Agent/Random.hpp>
 
 class NeuralNetwork {
 public:
-    NeuralNetwork(int* model, int numLayers);
+    NeuralNetwork(int* model, int numLayers, Random* random);
     ~NeuralNetwork();
     float* predict(float* inputs, int numInputs);
     int getNumOutputs();
     int getNumInputs();
 
 private:
-    float* realtimeData; // This is used to internally feed forward the network.
+
+    void initRandomWeightsAndBiases(int numWeights, int numBiases, Random* random);
+
+    float* realtimeData; // This is used internally to feed forward the network.
     float* weights;
     float* biases;
     int* model;
