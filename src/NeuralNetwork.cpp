@@ -3,7 +3,8 @@
 #include <random>
 
 NeuralNetwork::NeuralNetwork(int* m, int n, Random* random) {
-    model = m; // TODO: fix this memory leak
+    model = (int*)malloc(sizeof(int) * n);
+    memcpy(model, m, sizeof(int) * n);
     numLayers = n;
     numInputs = m[0];
     numOutputs = m[n - 1];
@@ -40,6 +41,8 @@ void NeuralNetwork::initRandomWeightsAndBiases(int numWeights, int numBiases, Ra
 
 NeuralNetwork::~NeuralNetwork(){
     free(weights);
+    free(model);
+    free(biases);
 }
 
 int NeuralNetwork::getNumOutputs(){
