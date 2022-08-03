@@ -15,7 +15,6 @@ int main(){
     };
 
     auto start = std::chrono::high_resolution_clock::now();
-    nn.mutate(0.5, 1.0);
     float* output = nn.predict(data, sizeof(data)/sizeof(data[0]));
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> duration = end - start;

@@ -54,19 +54,6 @@ int NeuralNetwork::getNumInputs(){
     return numInputs;
 }
 
-void NeuralNetwork::mutate(double chance, float range){
-    for(int i = 0; i < numWeights; i++){
-        if(Random::randomDouble(0.0, chance) <= chance){
-            weights[i] += Random::randomFloat(-range, range);
-        }
-    }
-    for(int i = 0; i < numBiases; i++){
-        if(Random::randomDouble(0.0, chance) <= chance){
-            biases[i] += Random::randomFloat(-range, range);
-        }
-    }
-}
-
 float* NeuralNetwork::predict(float* inputs, int n){
     if(n != numInputs){
         std::cout << "Wrong number of inputs passed into neural network!" << std::endl;

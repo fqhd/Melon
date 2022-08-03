@@ -8,7 +8,6 @@ public:
     float* predict(float* inputs, int numInputs);
     int getNumOutputs();
     int getNumInputs();
-    void mutate(double chance, float range);
 
 private:
 
