@@ -32,10 +32,10 @@ NeuralNetwork::NeuralNetwork(int* m, int n, Random* random) {
 
 void NeuralNetwork::initRandomWeightsAndBiases(int numWeights, int numBiases, Random* random){
     for(int i = 0; i < numWeights; i++){
-        weights[i] = random->get();
+        weights[i] = random->get(-1.0f, 1.0f);
     }
     for(int i = 0; i < numBiases; i++){
-        biases[i] = random->get();
+        biases[i] = random->get(-1.0f, 1.0f);
     }
 }
 

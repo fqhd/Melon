@@ -1,9 +1,10 @@
 #include <Agent/Random.hpp>
 
-Random::Random():number(-1.0f, 1.0f){
+Random::Random(){
     generator.seed(time(0));
 }
 
-float Random::get(){
+float Random::get(float min, float max){
+    std::uniform_real_distribution<float> number(min, max);
     return number(generator);
 }
