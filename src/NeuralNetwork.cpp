@@ -33,6 +33,9 @@ void NeuralNetwork::initRandomWeightsAndBiases(int numWeights, int numBiases, Ra
     for(int i = 0; i < numWeights; i++){
         weights[i] = random->get();
     }
+    for(int i = 0; i < numBiases; i++){
+        biases[i] = random->get();
+    }
 }
 
 NeuralNetwork::~NeuralNetwork(){
