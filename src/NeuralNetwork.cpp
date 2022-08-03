@@ -43,6 +43,7 @@ NeuralNetwork::~NeuralNetwork(){
     free(weights);
     free(model);
     free(biases);
+    free(realtimeData);
 }
 
 int NeuralNetwork::getNumOutputs(){
