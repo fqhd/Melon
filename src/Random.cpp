@@ -1,7 +1,7 @@
 #include <Agent/Random.hpp>
 
 Random::Random(){
-    generator.seed(time(0));
+    generator.seed(5);
 }
 
 float Random::randomFloat(float min, float max){

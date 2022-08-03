@@ -9,17 +9,20 @@ public:
     float* predict(float* inputs, int numInputs);
     int getNumOutputs();
     int getNumInputs();
-    void mutate();
+    void mutate(double chance, float range);
 
 private:
 
-    void initRandomWeightsAndBiases(int numWeights, int numBiases, Random* random);
+    void initRandomWeightsAndBiases();
 
     float* realtimeData; // This is used internally to feed forward the network.
     float* weights;
     float* biases;
     int* model;
+    int numWeights;
+    int numBiases;
     int numLayers;
     int numOutputs;
     int numInputs;
+    Random* random;
 };

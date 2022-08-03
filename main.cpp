@@ -10,14 +10,12 @@ int main(){
     float data[] = {
         1.0f, 1.0f, 1.0f, 1.0f,
         1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f, 1.0f
     };
 
     auto start = std::chrono::high_resolution_clock::now();
-    float* output;
-    for(int i = 0; i < 200; i++){
-        output = nn.predict(data, sizeof(data)/sizeof(data[0]));
-    }
+    nn.mutate(0.5, 1.0);
+    float* output = nn.predict(data, sizeof(data)/sizeof(data[0]));
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> duration = end - start;
     std::cout << duration.count() << "s" << std::endl;

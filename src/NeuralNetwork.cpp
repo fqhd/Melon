@@ -2,20 +2,21 @@
 #include <iostream>
 #include <random>
 
-NeuralNetwork::NeuralNetwork(int* m, int n, Random* random) {
+NeuralNetwork::NeuralNetwork(int* m, int n, Random* r) {
     model = (int*)malloc(sizeof(int) * n);
     memcpy(model, m, sizeof(int) * n);
     numLayers = n;
     numInputs = m[0];
     numOutputs = m[n - 1];
+    random = r;
 
-    int numWeights = 0;
+    numWeights = 0;
     for(int i = 1; i < numLayers; i++){
         numWeights += m[i - 1] * m[i];
     }
     weights = (float*)malloc(sizeof(float) * numWeights);
 
-    int numBiases = 0;
+    numBiases = 0;
     for(int i = 1; i < numLayers; i++){
         numBiases += m[i];
     }
@@ -27,10 +28,10 @@ NeuralNetwork::NeuralNetwork(int* m, int n, Random* random) {
     }
     realtimeData = (float*)malloc(sizeof(float) * numNodes);
 
-    initRandomWeightsAndBiases(numWeights, numBiases, random);
+    initRandomWeightsAndBiases();
 }
 
-void NeuralNetwork::initRandomWeightsAndBiases(int numWeights, int numBiases, Random* random){
+void NeuralNetwork::initRandomWeightsAndBiases(){
     for(int i = 0; i < numWeights; i++){
         weights[i] = random->randomFloat(-1.0f, 1.0f);
     }
@@ -52,6 +53,19 @@ int NeuralNetwork::getNumOutputs(){
 
 int NeuralNetwork::getNumInputs(){
     return numInputs;
+}
+
+void NeuralNetwork::mutate(double chance, float range){
+    for(int i = 0; i < numWeights; i++){
+        if(random->randomDouble(0.0, chance) <= chance){
+            weights[i] += random->randomFloat(-range, range);
+        }
+    }
+    for(int i = 0; i < numBiases; i++){
+        if(random->randomDouble(0.0, chance) <= chance){
+            biases[i] += random->randomFloat(-range, range);
+        }
+    }
 }
 
 float* NeuralNetwork::predict(float* inputs, int n){
