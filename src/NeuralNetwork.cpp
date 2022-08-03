@@ -39,6 +39,14 @@ void NeuralNetwork::initRandomWeightsAndBiases(){
     }
 }
 
+int NeuralNetwork::getNumWeights(){
+    return numWeights;
+}
+
+int NeuralNetwork::getNumBiases(){
+    return numBiases;
+}
+
 NeuralNetwork::~NeuralNetwork(){
     free(weights);
     free(model);
