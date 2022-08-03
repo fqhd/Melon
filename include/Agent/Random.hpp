@@ -4,7 +4,8 @@
 class Random{
 public:
     Random();
-    float get(float min, float max);
+    float randomFloat(float min, float max);
+    double randomDouble(double min, double max);
 
 private:
 

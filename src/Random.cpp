@@ -4,7 +4,12 @@ Random::Random(){
     generator.seed(time(0));
 }
 
-float Random::get(float min, float max){
+float Random::randomFloat(float min, float max){
     std::uniform_real_distribution<float> number(min, max);
+    return number(generator);
+}
+
+double Random::randomDouble(double min, double max){
+    std::uniform_real_distribution<double> number(min, max);
     return number(generator);
 }
