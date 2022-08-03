@@ -1,6 +1,5 @@
 #include <Agent/NeuralNetwork.hpp>
 #include <iostream>
-#include <Agent/Random.hpp>
 
 NeuralNetwork::NeuralNetwork(int* m, int n) {
     model = (int*)malloc(sizeof(int) * n);
@@ -26,17 +25,6 @@ NeuralNetwork::NeuralNetwork(int* m, int n) {
         numNodes += m[i];
     }
     realtimeData = (float*)malloc(sizeof(float) * numNodes);
-
-    initRandomWeightsAndBiases();
-}
-
-void NeuralNetwork::initRandomWeightsAndBiases(){
-    for(int i = 0; i < numWeights; i++){
-        weights[i] = Random::randomFloat(-1.0f, 1.0f);
-    }
-    for(int i = 0; i < numBiases; i++){
-        biases[i] = Random::randomFloat(-1.0f, 1.0f);
-    }
 }
 
 int NeuralNetwork::getNumWeights(){

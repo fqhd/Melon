@@ -16,8 +16,6 @@ public:
 
 private:
 
-    void initRandomWeightsAndBiases();
-
     float* realtimeData; // This is used internally to feed forward the network.
     
     int* model;
