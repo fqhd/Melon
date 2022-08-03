@@ -4,11 +4,12 @@
 class Random{
 public:
     Random();
-    float get(float min, float max);
+    float get();
 
 private:
 
     std::mt19937 generator;
     std::uniform_real_distribution<float> number;
+
 
 };
