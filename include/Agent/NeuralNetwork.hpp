@@ -1,10 +1,9 @@
 #pragma once
 #include <array>
-#include <Agent/Random.hpp>
 
 class NeuralNetwork {
 public:
-    NeuralNetwork(int* model, int numLayers, Random* random);
+    NeuralNetwork(int* model, int numLayers);
     ~NeuralNetwork();
     float* predict(float* inputs, int numInputs);
     int getNumOutputs();
@@ -24,5 +23,5 @@ private:
     int numLayers;
     int numOutputs;
     int numInputs;
-    Random* random;
+
 };

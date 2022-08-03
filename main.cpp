@@ -1,11 +1,12 @@
 #include <iostream>
 #include <Agent/NeuralNetwork.hpp>
+#include <Agent/Random.hpp>
 #include <chrono>
 
 int main(){
     int model[] = {12, 24, 3};
-    Random random;
-    NeuralNetwork nn(model, sizeof(model)/sizeof(model[0]), &random);
+    Random::seed(time(0));
+    NeuralNetwork nn(model, sizeof(model)/sizeof(model[0]));
 
     float data[] = {
         1.0f, 1.0f, 1.0f, 1.0f,

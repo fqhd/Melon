@@ -1,7 +1,9 @@
 #include <Agent/Random.hpp>
 
-Random::Random(){
-    generator.seed(5);
+std::mt19937 Random::generator;
+
+void Random::seed(uint32_t seed){
+    generator.seed(seed);
 }
 
 float Random::randomFloat(float min, float max){
