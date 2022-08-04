@@ -5,24 +5,43 @@ NeuralNetwork::NeuralNetwork(int* m, int n) {
     model = (int*)malloc(sizeof(int) * n);
     memcpy(model, m, sizeof(int) * n);
     numLayers = n;
-    numInputs = m[0];
-    numOutputs = m[n - 1];
+    init();
+}
+
+NeuralNetwork::NeuralNetwork(const char* path){
+    FILE* ourFile = fopen(path, "rb");
+    if(ourFile == NULL){
+        std::cout << "Failed to open file" << std::endl;
+    }
+    
+    fread(&numLayers, sizeof(int), 1, ourFile);
+    model = (int*)malloc(sizeof(int) * numLayers);
+    fread(model, sizeof(int) * numLayers, 1, ourFile);
+    init();
+    fread(weights, sizeof(float) * numWeights, 1, ourFile);
+    fread(biases, sizeof(float) * numBiases, 1, ourFile);
+    fclose(ourFile);
+}
+
+void NeuralNetwork::init(){
+    numInputs = model[0];
+    numOutputs = model[numLayers - 1];
 
     numWeights = 0;
     for(int i = 1; i < numLayers; i++){
-        numWeights += m[i - 1] * m[i];
+        numWeights += model[i - 1] * model[i];
     }
     weights = (float*)malloc(sizeof(float) * numWeights);
 
     numBiases = 0;
     for(int i = 1; i < numLayers; i++){
-        numBiases += m[i];
+        numBiases += model[i];
     }
     biases = (float*)malloc(sizeof(float) * numBiases);
 
     int numNodes = 0;
     for(int i = 0; i < numLayers; i++){
-        numNodes += m[i];
+        numNodes += model[i];
     }
     realtimeData = (float*)malloc(sizeof(float) * numNodes);
 }

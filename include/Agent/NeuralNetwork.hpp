@@ -3,6 +3,7 @@
 
 class NeuralNetwork {
 public:
+    NeuralNetwork(const char* path);
     NeuralNetwork(int* model, int numLayers);
     ~NeuralNetwork();
     float* predict(float* inputs, int numInputs);
@@ -17,8 +18,9 @@ public:
 
 private:
 
+    void init();
+
     float* realtimeData; // This is used internally to feed forward the network.
-    
     int* model;
     int numWeights;
     int numBiases;
