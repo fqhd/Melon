@@ -1,10 +1,19 @@
 #pragma once
 #include <array>
 
+#define SIGMOID 0
+#define RELU 1
+#define SOFTMAX 2
+
+struct Layer {
+    int activationFunc;
+    int numNodes;
+};
+
 class NeuralNetwork {
 public:
     NeuralNetwork(const char* path);
-    NeuralNetwork(int* model, int numLayers);
+    NeuralNetwork(Layer* model, int numLayers);
     ~NeuralNetwork();
     float* predict(float* inputs, int numInputs);
     int getNumOutputs();
@@ -21,7 +30,7 @@ private:
     void init();
 
     float* realtimeData; // This is used internally to feed forward the network.
-    int* model;
+    Layer* model;
     int numWeights;
     int numBiases;
     int numLayers;

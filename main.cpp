@@ -4,14 +4,25 @@
 #include <chrono>
 
 int main(){
-    int model[] = {12, 24, 3};
+    Layer model[] = {
+        {
+            .activationFunc = SIGMOID,
+            .numNodes = 3
+        },
+        {
+            .activationFunc = SIGMOID,
+            .numNodes = 4
+        },
+        {
+            .activationFunc = SIGMOID,
+            .numNodes = 2
+        }
+    };
     Random::seed(time(0));
     NeuralNetwork nn(model, sizeof(model)/sizeof(model[0]));
 
     float data[] = {
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f
+        1.0f, 1.0f, 1.0f
     };
 
     auto start = std::chrono::high_resolution_clock::now();
