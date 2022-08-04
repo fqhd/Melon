@@ -4,10 +4,6 @@ project(Agent VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_library(Agent SHARED src/NeuralNetwork.cpp src/Random.cpp)
+add_library(Agent SHARED src/NeuralNetwork.cpp)
 
 target_include_directories(Agent PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-add_executable(out main.cpp)
-
-target_link_libraries(out PRIVATE Agent)
