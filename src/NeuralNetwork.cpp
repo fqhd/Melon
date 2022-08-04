@@ -1,5 +1,39 @@
 #include <Agent/NeuralNetwork.hpp>
+#include <cmath>
 #include <iostream>
+
+#define EULER_NUMBER_F 2.71828182846
+
+float sigmoid(float x) {
+    return (1 / (1 + powf(EULER_NUMBER_F, -x)));
+}
+
+float relu(float x){
+    return fmax(0.0f, x);
+}
+
+float lrelu(float x){
+    return fmax(0.01f * x, x);
+}
+
+void softmax(float *input, int input_len) {
+    float m = -INFINITY;
+    for (int i = 0; i < input_len; i++) {
+        if (input[i] > m) {
+            m = input[i];
+        }
+    }
+
+    float sum = 0.0;
+    for (int i = 0; i < input_len; i++) {
+        sum += expf(input[i] - m);
+    }
+
+    float offset = m + logf(sum);
+    for (int i = 0; i < input_len; i++) {
+        input[i] = expf(input[i] - offset);
+    }
+}
 
 NeuralNetwork::NeuralNetwork(Layer* m, int n) {
     model = (Layer*)malloc(sizeof(Layer) * n);
@@ -105,8 +139,45 @@ float* NeuralNetwork::predict(float* inputs, int n){
             result += bias;
             realtimeData[layerOffset + model[i - 1].numNodes + j] = result;
         }
+        activateLayer(layerOffset + model[i - 1].numNodes, numNodesInLayer, model[i].activationFunc);
         layerOffset += model[i - 1].numNodes;
     }
 
     return realtimeData + layerOffset;
+}
+
+void NeuralNetwork::activateLayer(int offset, int numNodes, int func){
+    switch (func) {
+        case RELU:
+            for(int i = 0; i < numNodes; i++){
+                float x = realtimeData[offset + i];
+                realtimeData[offset + i] = relu(x);
+            }
+            break;
+
+        case LEAKY_RELU:
+            for(int i = 0; i < numNodes; i++){
+                float x = realtimeData[offset + i];
+                realtimeData[offset + i] = lrelu(x);
+            }
+            break;
+
+        case TANH:
+            for(int i = 0; i < numNodes; i++){
+                float x = realtimeData[offset + i];
+                realtimeData[offset + i] = tanh(x);
+            }
+            break;
+
+        case SOFTMAX:
+            softmax(realtimeData + offset, numNodes);
+            break;
+    
+        default:
+            for(int i = 0; i < numNodes; i++){
+                float x = realtimeData[offset + i];
+                realtimeData[offset + i] = sigmoid(x);
+            }
+            break;
+    }
 }
