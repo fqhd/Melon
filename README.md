@@ -4,7 +4,7 @@ Simple Neural Network Class for learning purposes, (not GPU accelerated at all o
 ## Adding to your project
 To add the library to your project, simply clone the repo and place it somewhere in your project then call add_subdirectory() on it.
 
-## Examples
+## Example
 
 ```cpp
 #include <iostream>
