@@ -10,6 +10,7 @@ public:
     int getNumInputs();
     int getNumWeights();
     int getNumBiases();
+    void save(const char* path);
 
     float* weights;
     float* biases;

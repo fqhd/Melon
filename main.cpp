@@ -23,6 +23,6 @@ int main(){
     std::cout << output[0] << std::endl;
     std::cout << output[1] << std::endl;
     std::cout << output[2] << std::endl;
-
+    nn.save("nn.bin");
     return 0;
 }

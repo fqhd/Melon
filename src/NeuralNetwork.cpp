@@ -50,6 +50,17 @@ int NeuralNetwork::getNumInputs(){
     return numInputs;
 }
 
+void NeuralNetwork::save(const char* path){
+    FILE* ourFile = fopen(path, "wb");
+
+    fwrite(&numLayers, sizeof(numLayers), 1, ourFile);
+    fwrite(model, sizeof(int) * numLayers, 1, ourFile);
+    fwrite(weights, sizeof(float) * numWeights, 1, ourFile);
+    fwrite(biases, sizeof(float) * numBiases, 1, ourFile);
+
+    fclose(ourFile);
+}
+
 float* NeuralNetwork::predict(float* inputs, int n){
     if(n != numInputs){
         std::cout << "Wrong number of inputs passed into neural network!" << std::endl;
@@ -80,4 +91,3 @@ float* NeuralNetwork::predict(float* inputs, int n){
 
     return realtimeData + layerOffset;
 }
-
