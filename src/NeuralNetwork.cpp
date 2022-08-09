@@ -1,4 +1,4 @@
-#include <Agent/NeuralNetwork.hpp>
+#include <Melon/NeuralNetwork.hpp>
 #include <cmath>
 #include <iostream>
 
