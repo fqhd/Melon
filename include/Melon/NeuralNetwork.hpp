@@ -28,6 +28,7 @@ public:
 
     float* weights;
     float* biases;
+    float fitness;
 
 private:
 
