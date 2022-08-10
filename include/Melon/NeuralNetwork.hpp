@@ -14,15 +14,17 @@ struct Layer {
 
 class NeuralNetwork {
 public:
-    NeuralNetwork(const char* path);
-    NeuralNetwork(Layer* model, int numLayers);
-    ~NeuralNetwork();
+
+    void create(Layer* model, int numLayers);
+    void loadFromFile(const char* path);
     float* predict(float* inputs, int numInputs);
+    void save(const char* path);
+    void destroy();
+
     int getNumOutputs();
     int getNumInputs();
     int getNumWeights();
     int getNumBiases();
-    void save(const char* path);
 
     float* weights;
     float* biases;

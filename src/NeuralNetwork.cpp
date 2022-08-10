@@ -35,14 +35,14 @@ void softmax(float *input, int input_len) {
     }
 }
 
-NeuralNetwork::NeuralNetwork(Layer* m, int n) {
+void NeuralNetwork::create(Layer* m, int n) {
     model = (Layer*)malloc(sizeof(Layer) * n);
     memcpy(model, m, sizeof(Layer) * n);
     numLayers = n;
     init();
 }
 
-NeuralNetwork::NeuralNetwork(const char* path){
+void NeuralNetwork::loadFromFile(const char* path){
     FILE* ourFile = fopen(path, "rb");
     if(ourFile == NULL){
         std::cout << "Failed to open file" << std::endl;
