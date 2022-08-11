@@ -28,7 +28,7 @@ public:
     float* getWeights();
     float* getBiases();
 
-    float fitness;
+    double fitness;
 
 private:
 

@@ -10,6 +10,19 @@ void Selection::init(int n, int m){
 }
 
 int* Selection::performSelection(NeuralNetwork* brains){
+    switch(method){
+        case ROULETTE:
+            nullptr;
+        break;
+
+        default:
+            return defaultSelection();
+        break;
+    }
+    
+}
+
+int* Selection::defaultSelection(){
     for(int i = 0; i < numParents; i++){
         parents[i] = 0;
     }

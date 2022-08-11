@@ -12,6 +12,8 @@ public:
 
 private:
 
+    int* defaultSelection();
+
     int numParents;
     int numBrains;
     int method;
