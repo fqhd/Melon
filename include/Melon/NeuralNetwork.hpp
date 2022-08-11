@@ -1,5 +1,5 @@
 #pragma once
-#include <array>
+#include <cstdint>
 
 #define SIGMOID 0
 #define RELU 1
@@ -25,18 +25,23 @@ public:
     int getNumInputs();
     int getNumWeights();
     int getNumBiases();
+    float* getWeights();
+    float* getBiases();
 
-    float* weights;
-    float* biases;
     float fitness;
 
 private:
 
-    void init();
     void activateLayer(int offset, int numNodes, int func);
+    float* getRealTimeData();
+    Layer* getModel();
 
-    float* realtimeData; // This is used internally to feed forward the network.
-    Layer* model;
+    uint8_t* data;
+
+    int dataSize;
+    int wOffset;
+    int bOffset;
+    int rtdOffset;
     int numWeights;
     int numBiases;
     int numLayers;
