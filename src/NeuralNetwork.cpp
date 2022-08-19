@@ -1,6 +1,7 @@
 #include <Melon/NeuralNetwork.hpp>
 #include <cmath>
 #include <iostream>
+#include <Melon/Random.hpp>
 
 #define EULER_NUMBER_F 2.71828182846
 
@@ -35,7 +36,7 @@ void softmax(float *input, int input_len) {
     }
 }
 
-void NeuralNetwork::create(Layer* m, int n) {
+void NeuralNetwork::create(Layer* m, int n, int method) {
     int offset = 0;
     numLayers = n;
 
@@ -69,6 +70,8 @@ void NeuralNetwork::create(Layer* m, int n) {
     dataSize = offset;
 
     memcpy(data, m, sizeof(Layer) * numLayers);
+
+    initializeWeights(method);
 }
 
 void NeuralNetwork::loadFromFile(const char* path){
@@ -216,4 +219,22 @@ float* NeuralNetwork::getWeights(){
 
 float* NeuralNetwork::getBiases(){
     return (float*)(data + bOffset);
+}
+
+void NeuralNetwork::initializeWeightsRandomly(){
+    float* weights = getWeights();
+    for(int i = 0; i < numWeights; i++){
+        weights[i] = Random::randomFloat(-1.0f, 1.0f);
+    }
+}
+
+void NeuralNetwork::initializeWeights(int method){
+    switch(method){
+    case RANDOM_WEIGHT_INITIALIZATION:
+        initializeWeightsRandomly();
+        break;
+    default:
+        initializeWeightsRandomly();
+        break;
+    }
 }

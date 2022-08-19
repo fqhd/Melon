@@ -1,11 +1,17 @@
 #pragma once
 #include <cstdint>
 
-#define SIGMOID 0
-#define RELU 1
-#define SOFTMAX 2
-#define LEAKY_RELU 3
-#define TANH 4
+enum ActivationFunc {
+    SIGMOID,
+    RELU,
+    SOFTMAX,
+    LEAKY_RELU,
+    TANH
+};
+
+enum WeightInitializationMethod {
+    RANDOM_WEIGHT_INITIALIZATION
+};
 
 struct Layer {
     int activationFunc;
@@ -15,7 +21,7 @@ struct Layer {
 class NeuralNetwork {
 public:
 
-    void create(Layer* model, int numLayers);
+    void create(Layer* model, int numLayers, int method = RANDOM_WEIGHT_INITIALIZATION);
     void loadFromFile(const char* path);
     float* predict(float* inputs, int numInputs);
     void save(const char* path);
@@ -31,6 +37,10 @@ public:
     double fitness;
 
 private:
+
+    // Weight initialization methods
+    void initializeWeights(int method);
+    void initializeWeightsRandomly();
 
     void activateLayer(int offset, int numNodes, int func);
     float* getRealTimeData();
