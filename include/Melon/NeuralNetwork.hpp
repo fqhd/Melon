@@ -21,7 +21,7 @@ struct Layer {
 class NeuralNetwork {
 public:
 
-    void create(Layer* model, int numLayers, int method = RANDOM_WEIGHT_INITIALIZATION);
+    void create(Layer* model, int numLayers, int method);
     void loadFromFile(const char* path);
     float* predict(float* inputs, int numInputs);
     void save(const char* path);
