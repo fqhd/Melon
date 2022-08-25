@@ -20,12 +20,14 @@ int main(){
         }
     };
 
-    NeuralNetwork* brains = (NeuralNetwork*)malloc(sizeof(NeuralNetwork) * 300);
-    for(int i = 0; i < 300; i++){
+    std::vector<NeuralNetwork> brains;
+    brains.resize(300);
+
+    for(int i = 0; i < brains.size(); i++){
         brains[i].create(model, 3, RANDOM_WEIGHT_INITIALIZATION);
     }
 
-    for(int i = 0; i < 300; i++){
+    for(int i = 0; i < brains.size(); i++){
         brains[i].fitness = 0.0f;
     }
 
@@ -33,19 +35,25 @@ int main(){
     brains[5].fitness = 0.5;
 
     Selection selection;
-    selection.init(300, ROULETTE);
+    selection.init(brains.size(), RANK);
 
     int* parents = selection.performSelection(brains);
 
-    for(int i = 0; i < 600; i++){
+    int num = 0;
+    for(int i = 0; i < brains.size() * 2; i++){
         std::cout << parents[i] << std::endl;
+        if(parents[i] == 10){
+            num++;
+        }
     }
 
-    selection.destroy();
+    std::cout << "N: " << num / (brains.size() * 2.0f) << std::endl;
 
-    for(int i = 0; i < 300; i++){
+
+    // Clean Up
+    selection.destroy();
+    for(int i = 0; i < brains.size(); i++){
         brains[i].destroy();
     }
-    
     return 0;
 }
