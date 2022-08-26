@@ -36,115 +36,15 @@ void softmax(float *input, int input_len) {
     }
 }
 
-void NeuralNetwork::create(Layer* m, int n, int method) {
-    int offset = 0;
-    numLayers = n;
+void NeuralNetwork::init(float* w, float* b, int method, int numWeights, int numBiases) {
+    weights = w;
+    biases = b;
 
-    numInputs = m[0].numNodes;
-    numOutputs = m[numLayers - 1].numNodes;
-
-    offset += sizeof(Layer) * n;
-
-    numWeights = 0;
-    for(int i = 1; i < numLayers; i++){
-        numWeights += m[i - 1].numNodes * m[i].numNodes;
-    }
-    wOffset = offset;
-    offset += sizeof(float) * numWeights;
-
-    numBiases = 0;
-    for(int i = 1; i < numLayers; i++){
-        numBiases += m[i].numNodes;
-    }
-    bOffset = offset;
-    offset += sizeof(float) * numBiases;
-
-    int numNodes = 0;
-    for(int i = 0; i < numLayers; i++){
-        numNodes += m[i].numNodes;
-    }
-    rtdOffset = offset;
-    offset += sizeof(float) * numNodes;
-
-    data = (uint8_t*)malloc(offset);
-    dataSize = offset;
-
-    memcpy(data, m, sizeof(Layer) * numLayers);
-
-    initializeWeights(method);
+    initializeWeights(method, numWeights, numBiases);
 }
 
-void NeuralNetwork::loadFromFile(const char* path){
-    FILE* ourFile = fopen(path, "rb");
-    if(ourFile == NULL){
-        std::cout << "Failed to open file" << std::endl;
-    }
-    
-    fread(&dataSize, sizeof(int), 1, ourFile);
-    fread(&wOffset, sizeof(int), 1, ourFile);
-    fread(&bOffset, sizeof(int), 1, ourFile);
-    fread(&rtdOffset, sizeof(int), 1, ourFile);
-    fread(&numWeights, sizeof(int), 1, ourFile);
-    fread(&numBiases, sizeof(int), 1, ourFile);
-    fread(&numLayers, sizeof(int), 1, ourFile);
-    fread(&numOutputs, sizeof(int), 1, ourFile);
-    fread(&numInputs, sizeof(int), 1, ourFile);
-    data = (uint8_t*)malloc(dataSize);
-    fread(data, dataSize, 1, ourFile);
-    fclose(ourFile);
-}
-
-int NeuralNetwork::getNumWeights(){
-    return numWeights;
-}
-
-int NeuralNetwork::getNumBiases(){
-    return numBiases;
-}
-
-void NeuralNetwork::destroy(){
-    free(data);
-}
-
-int NeuralNetwork::getNumOutputs(){
-    return numOutputs;
-}
-
-int NeuralNetwork::getNumInputs(){
-    return numInputs;
-}
-
-void NeuralNetwork::save(const char* path){
-    FILE* ourFile = fopen(path, "wb");
-
-    fwrite(&dataSize, sizeof(int), 1, ourFile);
-    fwrite(&wOffset, sizeof(int), 1, ourFile);
-    fwrite(&bOffset, sizeof(int), 1, ourFile);
-    fwrite(&rtdOffset, sizeof(int), 1, ourFile);
-    fwrite(&numWeights, sizeof(int), 1, ourFile);
-    fwrite(&numBiases, sizeof(int), 1, ourFile);
-    fwrite(&numLayers, sizeof(int), 1, ourFile);
-    fwrite(&numOutputs, sizeof(int), 1, ourFile);
-    fwrite(&numInputs, sizeof(int), 1, ourFile);
-    fwrite(data, dataSize, 1, ourFile);
-
-    fclose(ourFile);
-}
-
-float* NeuralNetwork::predict(float* inputs, int n){
-    if(n != numInputs){
-        std::cout << "Wrong number of inputs passed into neural network!" << std::endl;
-        return nullptr;
-    }
-
+float* NeuralNetwork::predict(float* realTimeData, Layer* model, int numLayers){
     // Copy input data into tempData
-    float* realtimeData = getRealTimeData();
-    float* weights = getWeights();
-    float* biases = getBiases();
-    Layer* model = getModel();
-
-    memcpy(realtimeData, inputs, sizeof(float) * numInputs);
-
     uint32_t biasIndex = 0;
     uint32_t weightIndex = 0;
     uint32_t layerOffset = 0;
@@ -156,85 +56,67 @@ float* NeuralNetwork::predict(float* inputs, int n){
             float bias = biases[biasIndex++];
             for(int k = 0; k < numWeightsInNode; k++){ // Loop through each weight
                 float weight = weights[weightIndex++];
-                result += weight * realtimeData[layerOffset + k];
+                result += weight * realTimeData[layerOffset + k];
             }
             result += bias;
-            realtimeData[layerOffset + model[i - 1].numNodes + j] = result;
+            realTimeData[layerOffset + model[i - 1].numNodes + j] = result;
         }
-        activateLayer(layerOffset + model[i - 1].numNodes, numNodesInLayer, model[i].activationFunc);
+        activateLayer(layerOffset + model[i - 1].numNodes, numNodesInLayer, model[i].activationFunc, realTimeData);
         layerOffset += model[i - 1].numNodes;
     }
-
-    return realtimeData + layerOffset;
+    
+    return realTimeData + layerOffset;
 }
 
-void NeuralNetwork::activateLayer(int offset, int numNodes, int func){
-    float* realtimeData = getRealTimeData();
+void NeuralNetwork::activateLayer(int offset, int numNodes, int func, float* realTimeData){
     switch (func) {
         case RELU:
             for(int i = 0; i < numNodes; i++){
-                float x = realtimeData[offset + i];
-                realtimeData[offset + i] = relu(x);
+                float x = realTimeData[offset + i];
+                realTimeData[offset + i] = relu(x);
             }
             break;
 
         case LEAKY_RELU:
             for(int i = 0; i < numNodes; i++){
-                float x = realtimeData[offset + i];
-                realtimeData[offset + i] = lrelu(x);
+                float x = realTimeData[offset + i];
+                realTimeData[offset + i] = lrelu(x);
             }
             break;
 
         case TANH:
             for(int i = 0; i < numNodes; i++){
-                float x = realtimeData[offset + i];
-                realtimeData[offset + i] = tanh(x);
+                float x = realTimeData[offset + i];
+                realTimeData[offset + i] = tanh(x);
             }
             break;
 
         case SOFTMAX:
-            softmax(realtimeData + offset, numNodes);
+            softmax(realTimeData + offset, numNodes);
             break;
     
         default:
-            for(int i = 0; i < numNodes; i++){
-                float x = realtimeData[offset + i];
-                realtimeData[offset + i] = sigmoid(x);
-            }
             break;
     }
 }
 
-float* NeuralNetwork::getRealTimeData(){
-    return (float*)(data + rtdOffset);
-}
 
-Layer* NeuralNetwork::getModel(){
-    return (Layer*)data;
-}
-
-float* NeuralNetwork::getWeights(){
-    return (float*)(data + wOffset);
-}
-
-float* NeuralNetwork::getBiases(){
-    return (float*)(data + bOffset);
-}
-
-void NeuralNetwork::initializeWeightsRandomly(){
-    float* weights = getWeights();
+void NeuralNetwork::initializeWeightsRandomly(int numWeights, int numBiases){
     for(int i = 0; i < numWeights; i++){
         weights[i] = Random::randomFloat(-1.0f, 1.0f);
     }
+    for(int i = 0; i < numBiases; i++){
+        biases[i] = Random::randomFloat(-1.0f, 1.0f);
+    }
 }
 
-void NeuralNetwork::initializeWeights(int method){
+void NeuralNetwork::initializeWeights(int method, int numWeights, int numBiases){
     switch(method){
     case RANDOM_WEIGHT_INITIALIZATION:
-        initializeWeightsRandomly();
+        initializeWeightsRandomly(numWeights, numBiases);
         break;
     default:
-        initializeWeightsRandomly();
+        initializeWeightsRandomly(numWeights, numBiases);
         break;
     }
 }

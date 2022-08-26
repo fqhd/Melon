@@ -2,6 +2,7 @@
 #include <cstdint>
 
 enum ActivationFunc {
+    NONE,
     SIGMOID,
     RELU,
     SOFTMAX,
@@ -21,41 +22,20 @@ struct Layer {
 class NeuralNetwork {
 public:
 
-    void create(Layer* model, int numLayers, int method);
-    void loadFromFile(const char* path);
-    float* predict(float* inputs, int numInputs);
-    void save(const char* path);
-    void destroy();
-
-    int getNumOutputs();
-    int getNumInputs();
-    int getNumWeights();
-    int getNumBiases();
-    float* getWeights();
-    float* getBiases();
+    void init(float* weights, float* biases, int method, int numWeights, int numBiases);
+    float* predict(float* realTimeData, Layer* model, int numLayers);
 
     double fitness;
 
 private:
 
     // Weight initialization methods
-    void initializeWeights(int method);
-    void initializeWeightsRandomly();
+    void initializeWeights(int method, int numWeights, int numBiases);
+    void initializeWeightsRandomly(int numWeights, int numBiases);
 
-    void activateLayer(int offset, int numNodes, int func);
-    float* getRealTimeData();
-    Layer* getModel();
+    void activateLayer(int offset, int numNodes, int func, float* realTimeData);
 
-    uint8_t* data;
-
-    int dataSize;
-    int wOffset;
-    int bOffset;
-    int rtdOffset;
-    int numWeights;
-    int numBiases;
-    int numLayers;
-    int numOutputs;
-    int numInputs;
+    float* weights;
+    float* biases;
 
 };

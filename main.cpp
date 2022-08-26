@@ -1,59 +1,39 @@
 #include <Melon/Random.hpp>
-#include <Melon/NeuralNetwork.hpp>
-#include <Melon/Selection.hpp>
+#include <Melon/GeneticAlgorithm.hpp>
 #include <iostream>
 
 int main(){
     Random::seed(time(0));
     Layer model[] = {
         {
-            .activationFunc = LEAKY_RELU,
+            .activationFunc = NONE,
+            .numNodes = 2
+        },
+        {
+            .activationFunc = NONE,
             .numNodes = 3
         },
         {
-            .activationFunc = LEAKY_RELU,
-            .numNodes = 5
-        },
-        {
-            .activationFunc = SIGMOID,
-            .numNodes = 2
+            .activationFunc = NONE,
+            .numNodes = 1
         }
     };
 
-    std::vector<NeuralNetwork> brains;
-    brains.resize(300);
+    GeneticAlgorithm algo;
+    algo.create(model, 3, 1);
 
-    for(int i = 0; i < brains.size(); i++){
-        brains[i].create(model, 3, RANDOM_WEIGHT_INITIALIZATION);
-    }
+    float input[] = {
+        -1.0f, 1.0f
+    };
 
-    for(int i = 0; i < brains.size(); i++){
-        brains[i].fitness = 0.0f;
-    }
+    algo.setBrainInput(0, input);
 
-    brains[10].fitness = 1.0;
-    brains[5].fitness = 0.5;
+    algo.feedForward();
 
-    Selection selection;
-    selection.init(brains.size(), RANK);
+    float* outputs = algo.getBrainOutput(0);
+    std::cout << outputs[0] << std::endl;
 
-    int* parents = selection.performSelection(brains);
+    algo.destroy();
 
-    int num = 0;
-    for(int i = 0; i < brains.size() * 2; i++){
-        std::cout << parents[i] << std::endl;
-        if(parents[i] == 10){
-            num++;
-        }
-    }
-
-    std::cout << "N: " << num / (brains.size() * 2.0f) << std::endl;
-
-
-    // Clean Up
-    selection.destroy();
-    for(int i = 0; i < brains.size(); i++){
-        brains[i].destroy();
-    }
     return 0;
 }
