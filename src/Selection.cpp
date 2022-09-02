@@ -7,40 +7,33 @@ void Selection::init(int n, int m){
     method = m;
     numParents = n * 2;
 
-    parents = (int*)malloc(sizeof(int) * numBrains * 2);
+    parents.resize(numParents);
 }
 
-int* Selection::performSelection(const std::vector<NeuralNetwork>& brains){
+std::vector<NeuralNetwork> Selection::performSelection(const std::vector<NeuralNetwork>& brains){
     switch(method){
         case ROULETTE:
-            return roulette(brains);
+            roulette(brains);
         break;
         case RANK:
-            return rank(brains);
+            rank(brains);
         break;
-
         default:
-            return defaultSelection();
+            roulette(brains);
         break;
-    }
-}
-
-int* Selection::defaultSelection(){
-    for(int i = 0; i < numParents; i++){
-        parents[i] = 0;
     }
     return parents;
 }
 
-double Selection::getTotalFitness(const std::vector<NeuralNetwork>& brains){
+double getTotalFitness(const std::vector<NeuralNetwork>& brains){
     double total = 0;
-    for(int i = 0; i < numBrains; i++){
+    for(int i = 0; i < brains.size(); i++){
         total += brains[i].fitness;
     }
     return total;
 }
 
-int* Selection::roulette(const std::vector<NeuralNetwork>& brains){
+ void Selection::roulette(const std::vector<NeuralNetwork>& brains){
     double totalFitness = getTotalFitness(brains);
 
     for(int i = 0; i < numParents; i++){
@@ -49,40 +42,34 @@ int* Selection::roulette(const std::vector<NeuralNetwork>& brains){
         for(int j = 0; j < numBrains; j++){
             acc += brains[j].fitness;
             if(r < acc){
-                parents[i] = j;
+                parents[i] = brains[i];
                 break;
             }
         }
     }
-    return parents;
 }
 
 bool compare(const NeuralNetwork& a, const NeuralNetwork& b){
     return a.fitness > b.fitness;
 }
 
-double stretch(double x){
-    return -pow((2 * x - 2), 2) + 1;
-}
-
-int selectRandom(const std::vector<NeuralNetwork>& brains){
+NeuralNetwork selectRandom(const std::vector<NeuralNetwork>& brains){
     for(unsigned int i = 0; i < brains.size(); i++){
         int r = Random::randomInt(0, 1);
         if(r){
-            return i;
+            brains[i];
         }
     }
-    return brains.size() - 1;
+    return brains[brains.size() - 1];
 }
 
-int* Selection::rank(std::vector<NeuralNetwork> brains){
+void Selection::rank(std::vector<NeuralNetwork> brains){
     std::sort(brains.begin(), brains.end(), compare);
     for(int i = 0; i < numParents; i++){
         parents[i] = selectRandom(brains);
     }
-    return parents;
 }
 
 void Selection::destroy(){
-    free(parents);
+    parents.clear();
 }
