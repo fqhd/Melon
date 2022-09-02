@@ -1,6 +1,7 @@
 #include <Melon/Random.hpp>
 #include <Melon/GeneticAlgorithm.hpp>
 #include <iostream>
+#include <chrono>
 
 int main(){
     Random::seed(time(0));
@@ -10,28 +11,42 @@ int main(){
             .numNodes = 2
         },
         {
-            .activationFunc = NONE,
-            .numNodes = 3
+            .activationFunc = SIGMOID,
+            .numNodes = 10
         },
         {
-            .activationFunc = NONE,
-            .numNodes = 1
+            .activationFunc = RELU,
+            .numNodes = 20
+        },
+        {
+            .activationFunc = SIGMOID,
+            .numNodes = 10
+        },
+        {
+            .activationFunc = SOFTMAX,
+            .numNodes = 5
         }
     };
 
     GeneticAlgorithm algo;
-    algo.create(model, 3, 1);
+    algo.create(model, 5, 1000);
 
     float input[] = {
         -1.0f, 1.0f
     };
 
-    algo.setBrainInput(0, input);
+    for(int i = 0; i < 1000; i++){
+        algo.setBrainInputs(i, input);
+    }
 
-    algo.feedForward();
+    auto start = std::chrono::high_resolution_clock::now();
+    for(int i = 0; i < 100; i++){
+        algo.feedForward();
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> diff = end - start;
 
-    float* outputs = algo.getBrainOutput(0);
-    std::cout << outputs[0] << std::endl;
+    std::cout << diff.count() << " seconds" << std::endl;
 
     algo.destroy();
 

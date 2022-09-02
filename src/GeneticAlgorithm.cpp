@@ -54,8 +54,8 @@ void GeneticAlgorithm::create(Layer* m, int n, int nb){
     }
 }
 
-void GeneticAlgorithm::setBrainInput(int brainIndex, float* data){
-    memcpy(getBrainInput(brainIndex), data, sizeof(float) * numInputs);
+void GeneticAlgorithm::setBrainInputs(int brainIndex, float* data){
+    memcpy(getBrainInputs(brainIndex), data, sizeof(float) * numInputs);
 }
 
 float* GeneticAlgorithm::getBrainWeights(int brainIndex){
@@ -72,19 +72,19 @@ float* GeneticAlgorithm::getRealTimeData(){
 
 void GeneticAlgorithm::feedForward(){
     for(int i = 0; i < brains.size(); i++){
-        float* brainInputs = getBrainInput(i);
+        float* brainInputs = getBrainInputs(i);
         float* realTimeData = getRealTimeData();
         memcpy(realTimeData, brainInputs, sizeof(float) * numInputs);
         float* output = brains[i].predict(realTimeData, model, numLayers);
-        memcpy(getBrainOutput(i), output, sizeof(float) * numOutputs);
+        memcpy(getBrainOutputs(i), output, sizeof(float) * numOutputs);
     }
 }
 
-float* GeneticAlgorithm::getBrainInput(int brainIndex){
+float* GeneticAlgorithm::getBrainInputs(int brainIndex){
     return (float*)(data + iOffset) + (sizeof(float) * numInputs * brainIndex);
 }
 
-float* GeneticAlgorithm::getBrainOutput(int brainIndex){
+float* GeneticAlgorithm::getBrainOutputs(int brainIndex){
     return (float*)(data + oOffset) + (sizeof(float) * numOutputs * brainIndex);
 }
 
