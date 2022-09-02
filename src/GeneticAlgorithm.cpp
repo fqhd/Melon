@@ -49,6 +49,8 @@ void GeneticAlgorithm::create(Layer* m, int n, int nb){
     for(int i = 0; i < brains.size(); i++){
         brains[i].init(getBrainWeights(i), getBrainBiases(i), RANDOM_WEIGHT_INITIALIZATION, numWeights, numBiases);
     }
+
+    selection.init(nb, ROULETTE);
 }
 
 float* GeneticAlgorithm::getBrainWeights(int brainIndex){
@@ -82,7 +84,8 @@ float* GeneticAlgorithm::getBrainOutputs(int brainIndex){
 }
 
 void GeneticAlgorithm::performGeneticAlgorithm(){
-
+    std::vector<NeuralNetwork> parents = selection.performSelection(brains);
+    
 }
 
 void GeneticAlgorithm::destroy(){

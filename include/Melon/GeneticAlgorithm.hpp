@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <vector>
 #include <Melon/NeuralNetwork.hpp>
+#include <Melon/Selection.hpp>
 
 class GeneticAlgorithm {
 public:
@@ -19,6 +20,8 @@ private:
     float* getBrainWeights(int brainIndex);
     float* getRealTimeData();
 
+    Selection selection;
+    
     Layer* model;
     int numInputs;
     int numOutputs;
