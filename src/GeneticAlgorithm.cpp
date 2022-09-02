@@ -43,19 +43,12 @@ void GeneticAlgorithm::create(Layer* m, int n, int nb){
     iOffset = offset;
     offset += numInputs * sizeof(float) * nb;
 
-    fOffset = offset;
-    offset += numBrains * sizeof(float);
-
     data = (uint8_t*)malloc(offset);
 
     brains.resize(nb);
     for(int i = 0; i < brains.size(); i++){
         brains[i].init(getBrainWeights(i), getBrainBiases(i), RANDOM_WEIGHT_INITIALIZATION, numWeights, numBiases);
     }
-}
-
-void GeneticAlgorithm::setBrainInputs(int brainIndex, float* data){
-    memcpy(getBrainInputs(brainIndex), data, sizeof(float) * numInputs);
 }
 
 float* GeneticAlgorithm::getBrainWeights(int brainIndex){
@@ -86,10 +79,6 @@ float* GeneticAlgorithm::getBrainInputs(int brainIndex){
 
 float* GeneticAlgorithm::getBrainOutputs(int brainIndex){
     return (float*)(data + oOffset) + (sizeof(float) * numOutputs * brainIndex);
-}
-
-void GeneticAlgorithm::setBrainFitness(int brainIndex, double fitness){
-    brains[brainIndex].fitness = fitness;
 }
 
 void GeneticAlgorithm::performGeneticAlgorithm(){

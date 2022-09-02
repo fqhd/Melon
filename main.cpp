@@ -31,12 +31,10 @@ int main(){
     GeneticAlgorithm algo;
     algo.create(model, 5, 1000);
 
-    float input[] = {
-        -1.0f, 1.0f
-    };
-
     for(int i = 0; i < 1000; i++){
-        algo.setBrainInputs(i, input);
+        float* inputs = algo.getBrainInputs(i);
+        inputs[0] = -1.0f;
+        inputs[1] = 1.0f;
     }
 
     auto start = std::chrono::high_resolution_clock::now();
