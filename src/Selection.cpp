@@ -12,14 +12,17 @@ void Selection::init(int n, int m){
 
 std::vector<NeuralNetwork> Selection::performSelection(const std::vector<NeuralNetwork>& brains){
     switch(method){
-        case ROULETTE:
+        case ROULETTE_SELECTION:
             roulette(brains);
         break;
-        case RANK:
+        case RANK_SELECTION:
             rank(brains);
         break;
         case STOCHASTIC_UNIVERSAL_SAMPLING:
             stochasticUniversalSampling(brains);
+        break;
+        case TOURNAMENT_SELECTION:
+            tournamentSelection(brains);
         break;
         default:
             roulette(brains);
@@ -82,6 +85,22 @@ void Selection::stochasticUniversalSampling(const std::vector<NeuralNetwork>& br
     for(int i = 0; i < numParents; i++){
         double fixedPoint = i * step;
         parents[i] = getNeuralNetworkFromFitPos(brains, fixedPoint);
+    }
+}
+
+
+void Selection::tournamentSelection(const std::vector<NeuralNetwork>& brains){
+    int K = numParents * 0.01;
+    
+    for(int i = 0; i < numParents; i++){
+        int highestFitnessIndex = Random::randomInt(0, numBrains - 1);
+        for(int j = 0; j < K - 1; j++){
+            int randomIndex = Random::randomInt(0, numBrains - 1);
+            if(brains[randomIndex].fitness > brains[highestFitnessIndex].fitness){
+                highestFitnessIndex = randomIndex;
+            }
+        }
+        parents[i] = brains[highestFitnessIndex];
     }
 }
 
