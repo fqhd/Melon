@@ -4,7 +4,8 @@
 
 enum SelectionMethod {
     ROULETTE,
-    RANK
+    RANK,
+    STOCHASTIC_UNIVERSAL_SAMPLING
 };
 
 class Selection {
@@ -18,6 +19,7 @@ private:
 
     void roulette(const std::vector<NeuralNetwork>& brains);
     void rank(std::vector<NeuralNetwork> brains);
+    void stochasticUniversalSampling(const std::vector<NeuralNetwork>& brains);
 
     int numParents;
     int numBrains;
