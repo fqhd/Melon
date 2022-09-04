@@ -14,7 +14,6 @@ public:
 
     void init(int numBrains, int method);
     std::vector<NeuralNetwork> performSelection(const std::vector<NeuralNetwork>& brains);
-    void destroy();
 
 private:
 

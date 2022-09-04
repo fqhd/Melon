@@ -2,10 +2,10 @@
 #include <Melon/Random.hpp>
 #include <iostream>
 
-void Selection::init(int n, int m){
-    numBrains = n;
+void Selection::init(int nb, int m){
+    numBrains = nb;
     method = m;
-    numParents = n * 2;
+    numParents = nb * 2;
 
     parents.resize(numParents);
 }
@@ -101,8 +101,4 @@ void Selection::tournamentSelection(const std::vector<NeuralNetwork>& brains){
         }
         parents[i] = brains[highestFitnessIndex];
     }
-}
-
-void Selection::destroy(){
-    parents.clear();
 }

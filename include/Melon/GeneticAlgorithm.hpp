@@ -32,7 +32,6 @@ private:
     int rOffset;
     int oOffset;
     int iOffset;
-    int fOffset;
     int numBrains;
     int brainSize;
     uint8_t* data;

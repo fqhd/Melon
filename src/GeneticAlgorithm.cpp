@@ -50,7 +50,7 @@ void GeneticAlgorithm::create(Layer* m, int n, int nb){
         brains[i].init(getBrainWeights(i), getBrainBiases(i), RANDOM_WEIGHT_INITIALIZATION, numWeights, numBiases);
     }
 
-    selection.init(nb, ROULETTE);
+    selection.init(nb, ROULETTE_SELECTION);
 }
 
 float* GeneticAlgorithm::getBrainWeights(int brainIndex){
