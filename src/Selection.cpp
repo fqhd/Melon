@@ -47,6 +47,7 @@ NeuralNetwork getNeuralNetworkFromFitPos(const std::vector<NeuralNetwork>& brain
             return brains[j];
         }
     }
+    return brains[0];
 }
 
 void Selection::roulette(const std::vector<NeuralNetwork>& brains){
