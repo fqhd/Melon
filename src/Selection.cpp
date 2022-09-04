@@ -88,7 +88,6 @@ void Selection::stochasticUniversalSampling(const std::vector<NeuralNetwork>& br
     }
 }
 
-
 void Selection::tournamentSelection(const std::vector<NeuralNetwork>& brains){
     int K = numParents * 0.01;
     
