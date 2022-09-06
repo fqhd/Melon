@@ -10,13 +10,13 @@ enum CrossoverMethod {
 class Crossover {
 public:
 
-    void init(int numBrains, int method);
-    std::vector<NeuralNetwork> performCrossover(const std::vector<NeuralNetwork>& parents);
+    Crossover(Layer* model, int numLayers, int numBrains, int method);
+    std::vector<NeuralNetwork*> performCrossover(const std::vector<NeuralNetwork*>& parents);
 
 private:
 
-    std::vector<NeuralNetwork> children;
-    NeuralNetwork(*crossoverFunc)(const NeuralNetwork&, const NeuralNetwork&);
+    std::vector<NeuralNetwork*> children;
+    void(*crossoverFunc)(const NeuralNetwork*, const NeuralNetwork*, NeuralNetwork* child);
 
 
 };

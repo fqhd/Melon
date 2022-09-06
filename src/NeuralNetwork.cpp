@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <Melon/Random.hpp>
+#include <iostream>
 
 #define EULER_NUMBER_F 2.71828182846
 
@@ -36,15 +37,53 @@ void softmax(float *input, int input_len) {
     }
 }
 
-void NeuralNetwork::init(float* w, float* b, int method, int numWeights, int numBiases) {
-    weights = w;
-    biases = b;
+NeuralNetwork::NeuralNetwork(Layer* m, int n, int mthd) {
+    model = new Layer[n];
+    numLayers = n;
+    for(int i = 0; i < numLayers; i++){
+        model[i] = m[i];
+    }
 
-    initializeWeights(method, numWeights, numBiases);
+    numInputs = m[0].numNodes;
+    numOutputs = m[numLayers - 1].numNodes;
+
+    numWeights = 0;
+    for(int i = 1; i < numLayers; i++){
+        numWeights += model[i - 1].numNodes * model[i].numNodes;
+    }
+    weights = new float[numWeights];
+
+    numBiases = 0;
+    for(int i = 1; i < numLayers; i++){
+        numBiases += model[i].numNodes;
+    }
+    biases = new float[numBiases];
+
+    int numNodes = 0;
+    for(int i = 0; i < numLayers; i++){
+        numNodes += m[i].numNodes;
+    }
+    realTimeData = new float[numNodes];
+
+    initializeWeights(mthd);
 }
 
-float* NeuralNetwork::predict(float* realTimeData, Layer* model, int numLayers){
-    // Copy input data into tempData
+NeuralNetwork::~NeuralNetwork() {
+    delete[] model;
+    delete[] weights;
+    delete[] biases;
+    delete[] realTimeData;
+}
+
+float* NeuralNetwork::getInputs(){
+    return realTimeData;
+}
+
+float* NeuralNetwork::getOutputs(){
+    return realTimeData + numBiases + numInputs - numOutputs;
+}
+
+void NeuralNetwork::predict(){
     uint32_t biasIndex = 0;
     uint32_t weightIndex = 0;
     uint32_t layerOffset = 0;
@@ -64,8 +103,6 @@ float* NeuralNetwork::predict(float* realTimeData, Layer* model, int numLayers){
         activateLayer(layerOffset + model[i - 1].numNodes, numNodesInLayer, model[i].activationFunc, realTimeData);
         layerOffset += model[i - 1].numNodes;
     }
-    
-    return realTimeData + layerOffset;
 }
 
 void NeuralNetwork::activateLayer(int offset, int numNodes, int func, float* realTimeData){
@@ -101,7 +138,7 @@ void NeuralNetwork::activateLayer(int offset, int numNodes, int func, float* rea
 }
 
 
-void NeuralNetwork::initializeWeightsRandomly(int numWeights, int numBiases){
+void NeuralNetwork::initializeWeightsRandomly(){
     for(int i = 0; i < numWeights; i++){
         weights[i] = Random::randomFloat(-1.0f, 1.0f);
     }
@@ -110,13 +147,13 @@ void NeuralNetwork::initializeWeightsRandomly(int numWeights, int numBiases){
     }
 }
 
-void NeuralNetwork::initializeWeights(int method, int numWeights, int numBiases){
+void NeuralNetwork::initializeWeights(int method){
     switch(method){
     case RANDOM_WEIGHT_INITIALIZATION:
-        initializeWeightsRandomly(numWeights, numBiases);
+        initializeWeightsRandomly();
         break;
     default:
-        initializeWeightsRandomly(numWeights, numBiases);
+        initializeWeightsRandomly();
         break;
     }
 }

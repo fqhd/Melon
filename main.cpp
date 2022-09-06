@@ -7,7 +7,7 @@ int main(){
     Random::seed(time(0));
     Layer model[] = {
         {
-            .activationFunc = NONE,
+            .activationFunc = NO_ACTIVATION_FUNCTION,
             .numNodes = 2
         },
         {
@@ -28,10 +28,9 @@ int main(){
         }
     };
 
-    GeneticAlgorithm algo;
-    algo.create(model, 5, 1000);
+    GeneticAlgorithm algo(model, 5, 200);
 
-    for(int i = 0; i < 1000; i++){
+    for(int i = 0; i < 200; i++){
         float* inputs = algo.getBrainInputs(i);
         inputs[0] = -1.0f;
         inputs[1] = 1.0f;
@@ -44,9 +43,9 @@ int main(){
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> diff = end - start;
 
-    std::cout << diff.count() << " seconds" << std::endl;
+    algo.performGeneticAlgorithm();
 
-    algo.destroy();
+    std::cout << diff.count() << " seconds" << std::endl;
 
     return 0;
 }

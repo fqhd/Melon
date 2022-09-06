@@ -12,19 +12,19 @@ enum SelectionMethod {
 class Selection {
 public:
 
-    void init(int numBrains, int method);
-    std::vector<NeuralNetwork> performSelection(const std::vector<NeuralNetwork>& brains);
+    Selection(int numBrains, int method);
+    std::vector<NeuralNetwork*> performSelection(const std::vector<NeuralNetwork*>& brains);
 
 private:
 
-    void roulette(const std::vector<NeuralNetwork>& brains);
-    void rank(std::vector<NeuralNetwork> brains);
-    void stochasticUniversalSampling(const std::vector<NeuralNetwork>& brains);
-    void tournamentSelection(const std::vector<NeuralNetwork>& brains);
+    void roulette(const std::vector<NeuralNetwork*>& brains);
+    void rank(std::vector<NeuralNetwork*> brains);
+    void stochasticUniversalSampling(const std::vector<NeuralNetwork*>& brains);
+    void tournamentSelection(const std::vector<NeuralNetwork*>& brains);
 
     int numParents;
     int numBrains;
     int method;
-    std::vector<NeuralNetwork> parents;
+    std::vector<NeuralNetwork*> parents;
 
 };
