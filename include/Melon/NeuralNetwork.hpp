@@ -31,6 +31,11 @@ public:
 
     double fitness;
 
+    float* weights;
+    float* biases;
+    int numWeights;
+    int numBiases;
+
 private:
 
     // Weight initialization methods
@@ -43,10 +48,7 @@ private:
     int numLayers;
     int numInputs;
     int numOutputs;
-    int numWeights;
-    int numBiases;
     float* realTimeData;
-    float* weights;
-    float* biases;
+    
 
 };

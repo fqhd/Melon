@@ -1,7 +1,22 @@
 #include <Melon/Crossover.hpp>
+#include <Melon/Random.hpp>
 
 void onePointCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2, NeuralNetwork* child){
+    int randomWeightPoint = Random::randomInt(0, parent1->numWeights);
+    memcpy(child->weights, parent1->weights, sizeof(float) * randomWeightPoint);
+    int diff = parent1->numWeights - randomWeightPoint;
+    if(diff){
+        memcpy(child->weights + randomWeightPoint, parent1->weights + randomWeightPoint, sizeof(float) * diff);
+    }
 
+    int randomBiasPoint = Random::randomInt(0, parent1->numBiases);
+    memcpy(child->biases, parent1->biases, sizeof(float) * randomBiasPoint);
+    diff = parent1->numBiases - randomBiasPoint;
+    if(diff){
+        memcpy(child->biases + randomBiasPoint, parent1->biases + randomBiasPoint, sizeof(float) * diff);
+    }
+
+    // Would you rather get 100k dollars or charity gains 1M dollars
 }
 
 Crossover::Crossover(Layer* model, int numLayers, int numBrains, int method){
@@ -23,5 +38,7 @@ std::vector<NeuralNetwork*> Crossover::performCrossover(const std::vector<Neural
         crossoverFunc(parents[p1], parents[p2], children[i]);
         index += 2;
     }
+
+    return children;
 }
 

@@ -32,5 +32,7 @@ float *GeneticAlgorithm::getBrainOutputs(int brainIndex)
 void GeneticAlgorithm::performGeneticAlgorithm()
 {
     std::vector<NeuralNetwork*> parents = selection.performSelection(brains);
+    std::vector<NeuralNetwork*> children = crossover.performCrossover(parents);
+    
     
 }
