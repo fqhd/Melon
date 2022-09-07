@@ -15,8 +15,6 @@ void onePointCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent
     if(diff){
         memcpy(child->biases + randomBiasPoint, parent1->biases + randomBiasPoint, sizeof(float) * diff);
     }
-
-    // Would you rather get 100k dollars or charity gains 1M dollars
 }
 
 Crossover::Crossover(Layer* model, int numLayers, int numBrains, int method){
