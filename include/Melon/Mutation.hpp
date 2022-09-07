@@ -4,7 +4,8 @@
 #include <vector>
 
 enum MutationMethods {
-    RANDOM_RESETTING
+    RANDOM_RESETTING,
+    SCRAMBLE_MUTATION
 };
 
 class Mutation {
@@ -15,6 +16,6 @@ public:
 
 private:
 
-    void(*mutateBrain)(NeuralNetwork*);
+    void(*mutationFunc)(NeuralNetwork*);
 
 };

@@ -2,23 +2,41 @@
 #include <Melon/Random.hpp>
 
 void randomResetting(NeuralNetwork* brain){
-    brain->weights[Random::randomInt(0, brain->numWeights - 1)] = Random::randomFloat(0.0f, 1.0f);
-    brain->biases[Random::randomInt(0, brain->numBiases - 1)] = Random::randomFloat(0.0f, 1.0f);
+    double weightMutationChance = 0.01; // 1% chance of mutation
+    for(int i = 0; i < brain->numWeights; i++){
+        if(Random::randomDouble(0.0, 1.0) <= weightMutationChance){
+            brain->weights[i] = Random::randomFloat(0.0f, 1.0f);
+        }
+    }
+
+    double biasMutationChance = 0.01; // 1% chance of mutation
+    for(int i = 0; i < brain->numBiases; i++){
+        if(Random::randomDouble(0.0, 1.0) <= biasMutationChance){
+            brain->biases[i] = Random::randomFloat(0.0f, 1.0f);
+        }
+    }
+}
+
+void scrambleMutation(NeuralNetwork* brain){
+
 }
 
 Mutation::Mutation(int method){
     switch(method){
         case RANDOM_RESETTING:
-            mutateBrain = randomResetting;
+            mutationFunc = randomResetting;
+        break;
+        case SCRAMBLE_MUTATION:
+            mutationFunc = scrambleMutation;
         break;
         default:
-            mutateBrain = randomResetting;
+            mutationFunc = randomResetting;
         break;
     }
 }
 
 void Mutation::performMutation(const std::vector<NeuralNetwork*>& brains){
     for(unsigned int i = 0; i < brains.size(); i++){
-        randomResetting(brains[i]);
+        mutationFunc(brains[i]);
     }
 }
