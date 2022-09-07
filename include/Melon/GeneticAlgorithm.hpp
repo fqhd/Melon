@@ -13,6 +13,7 @@ public:
     float* getBrainInputs(int brainIndex);
     float* getBrainOutputs(int brainIndex);
     void performGeneticAlgorithm();
+    void setBrainFitness(int index, double fitness);
 
 private:
 

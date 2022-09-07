@@ -33,6 +33,12 @@ void GeneticAlgorithm::performGeneticAlgorithm()
 {
     std::vector<NeuralNetwork*> parents = selection.performSelection(brains);
     std::vector<NeuralNetwork*> children = crossover.performCrossover(parents);
-    
-    
+
+    parents[0]->print();
+    parents[1]->print();
+    children[0]->print();
+}
+
+void GeneticAlgorithm::setBrainFitness(int index, double fitness){
+    brains[index]->fitness = fitness;
 }

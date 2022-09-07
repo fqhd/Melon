@@ -12,23 +12,15 @@ int main(){
         },
         {
             .activationFunc = SIGMOID,
-            .numNodes = 10
-        },
-        {
-            .activationFunc = RELU,
-            .numNodes = 20
-        },
-        {
-            .activationFunc = SIGMOID,
-            .numNodes = 10
+            .numNodes = 3
         },
         {
             .activationFunc = SOFTMAX,
-            .numNodes = 5
+            .numNodes = 1
         }
     };
 
-    GeneticAlgorithm algo(model, 5, 200);
+    GeneticAlgorithm algo(model, 3, 200);
 
     for(int i = 0; i < 200; i++){
         float* inputs = algo.getBrainInputs(i);
@@ -37,11 +29,15 @@ int main(){
     }
 
     auto start = std::chrono::high_resolution_clock::now();
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < 10000; i++){
         algo.feedForward();
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> diff = end - start;
+
+    for(int i = 0; i < 200; i++){
+        algo.setBrainFitness(i, Random::randomDouble(0.0, 1000.0));
+    }
 
     algo.performGeneticAlgorithm();
 

@@ -83,6 +83,20 @@ float* NeuralNetwork::getOutputs(){
     return realTimeData + numBiases + numInputs - numOutputs;
 }
 
+void NeuralNetwork::print(){
+    std::cout << "Weights: ";
+    for(int i = 0; i < numWeights; i++){
+        std::cout << weights[i] << ", ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Biases: ";
+    for(int i = 0; i < numBiases; i++){
+        std::cout << biases[i] << ", ";
+    }
+    std::cout << std::endl;
+}
+
 void NeuralNetwork::predict(){
     uint32_t biasIndex = 0;
     uint32_t weightIndex = 0;

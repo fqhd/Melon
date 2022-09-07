@@ -1,19 +1,20 @@
 #include <Melon/Crossover.hpp>
 #include <Melon/Random.hpp>
+#include <iostream>
 
 void onePointCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2, NeuralNetwork* child){
-    int randomWeightPoint = Random::randomInt(0, parent1->numWeights);
+    int randomWeightPoint = Random::randomInt(0, child->numWeights);
     memcpy(child->weights, parent1->weights, sizeof(float) * randomWeightPoint);
     int diff = parent1->numWeights - randomWeightPoint;
     if(diff){
-        memcpy(child->weights + randomWeightPoint, parent1->weights + randomWeightPoint, sizeof(float) * diff);
+        memcpy(child->weights + randomWeightPoint, parent2->weights + randomWeightPoint, sizeof(float) * diff);
     }
 
-    int randomBiasPoint = Random::randomInt(0, parent1->numBiases);
+    int randomBiasPoint = Random::randomInt(0, child->numBiases);
     memcpy(child->biases, parent1->biases, sizeof(float) * randomBiasPoint);
     diff = parent1->numBiases - randomBiasPoint;
     if(diff){
-        memcpy(child->biases + randomBiasPoint, parent1->biases + randomBiasPoint, sizeof(float) * diff);
+        memcpy(child->biases + randomBiasPoint, parent2->biases + randomBiasPoint, sizeof(float) * diff);
     }
 }
 

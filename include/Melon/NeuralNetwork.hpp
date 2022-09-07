@@ -28,6 +28,7 @@ public:
     float* getInputs();
     float* getOutputs();
     void predict();
+    void print();
 
     double fitness;
 
