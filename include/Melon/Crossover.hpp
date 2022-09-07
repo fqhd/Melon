@@ -16,7 +16,7 @@ public:
 private:
 
     std::vector<NeuralNetwork*> children;
-    void(*crossoverFunc)(const NeuralNetwork*, const NeuralNetwork*, NeuralNetwork* child);
+    void(*crossoverFunc)(const NeuralNetwork*, const NeuralNetwork*, NeuralNetwork*);
 
 
 };

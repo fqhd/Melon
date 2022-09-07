@@ -3,7 +3,7 @@
 #include <cstring>
 #include <iostream>
 
-GeneticAlgorithm::GeneticAlgorithm(Layer *model, int numLayers, int numBrains) : selection(numBrains, ROULETTE_SELECTION), crossover(model, numLayers, numBrains, ONE_POINT_CROSSOVER)
+GeneticAlgorithm::GeneticAlgorithm(Layer *model, int numLayers, int numBrains) : selection(numBrains, ROULETTE_SELECTION), crossover(model, numLayers, numBrains, ONE_POINT_CROSSOVER), mutation(RANDOM_RESETTING)
 {
     for (int i = 0; i < numBrains; i++)
     {
@@ -33,6 +33,9 @@ void GeneticAlgorithm::performGeneticAlgorithm()
 {
     std::vector<NeuralNetwork*> parents = selection.performSelection(brains);
     std::vector<NeuralNetwork*> children = crossover.performCrossover(parents);
+    mutation.performMutation(children);
+
+    // TODO: Copy childrens array into brains array
 
     parents[0]->print();
     parents[1]->print();

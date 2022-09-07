@@ -4,6 +4,7 @@
 #include <Melon/NeuralNetwork.hpp>
 #include <Melon/Selection.hpp>
 #include <Melon/Crossover.hpp>
+#include <Melon/Mutation.hpp>
 
 class GeneticAlgorithm {
 public:
@@ -19,6 +20,7 @@ private:
 
     Selection selection;
     Crossover crossover;
+    Mutation mutation;
     std::vector<NeuralNetwork*> brains;   
 
 };
