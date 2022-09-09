@@ -6,7 +6,7 @@
 enum CrossoverMethod {
     ONE_POINT_CROSSOVER,
     UNIFORM_CROSSOVER,
-    MERGE_CROSSOVER
+    AVERAGE_CROSSOVER
 };
 
 class Crossover {

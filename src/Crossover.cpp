@@ -27,7 +27,7 @@ void uniformCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2
     }
 }
 
-void mergeCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2, NeuralNetwork* child){
+void averageCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2, NeuralNetwork* child){
     for(int i = 0; i < child->numWeights; i++){
         child->weights[i] = (parent1->weights[i] + parent2->weights[i]) / 2.0f;
     }
@@ -47,8 +47,8 @@ Crossover::Crossover(Layer* model, int numLayers, int numBrains, int method){
         case UNIFORM_CROSSOVER:
             crossoverFunc = uniformCrossover;
         break;
-        case MERGE_CROSSOVER:
-            crossoverFunc = mergeCrossover;
+        case AVERAGE_CROSSOVER:
+            crossoverFunc = averageCrossover;
         break;
         default:
             crossoverFunc = uniformCrossover;
