@@ -5,7 +5,8 @@
 
 enum CrossoverMethod {
     ONE_POINT_CROSSOVER,
-    UNIFORM_CROSSOVER
+    UNIFORM_CROSSOVER,
+    MERGE_CROSSOVER
 };
 
 class Crossover {
