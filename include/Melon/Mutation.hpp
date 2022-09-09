@@ -5,7 +5,8 @@
 
 enum MutationMethods {
     RANDOM_RESETTING,
-    SCRAMBLE_MUTATION
+    SCRAMBLE_MUTATION,
+    NUDGE_MUTATION
 };
 
 class Mutation {

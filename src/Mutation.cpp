@@ -19,6 +19,22 @@ void randomResetting(NeuralNetwork* brain){
     }
 }
 
+void nudgeMutation(NeuralNetwork* brain){
+    double weightMutationChance = 0.01; // 1% chance of mutation
+    for(int i = 0; i < brain->numWeights; i++){
+        if(Random::randomDouble(0.0, 1.0) <= weightMutationChance){
+            brain->weights[i] += Random::randomFloat(0.0f, 1.0f);
+        }
+    }
+
+    double biasMutationChance = 0.01; // 1% chance of mutation
+    for(int i = 0; i < brain->numBiases; i++){
+        if(Random::randomDouble(0.0, 1.0) <= biasMutationChance){
+            brain->biases[i] += Random::randomFloat(0.0f, 1.0f);
+        }
+    }
+}
+
 void shuffle(float* array, int size){
     int m = size;
     float t = 0;
@@ -39,6 +55,13 @@ void scrambleMutation(NeuralNetwork* brain){
     if(weightChunkSize != 0){
         int chunkPos = Random::randomInt(0, brain->numWeights - weightChunkSize - 1);
         shuffle(brain->weights + chunkPos, weightChunkSize);
+    }
+
+    int biasChunkSize = (brain->numBiases * chunkCut);
+
+    if(biasChunkSize != 0){
+        int chunkPos = Random::randomInt(0, brain->numBiases - biasChunkSize - 1);
+        shuffle(brain->biases + chunkPos, biasChunkSize);
     }
 }
 
