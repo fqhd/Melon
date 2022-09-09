@@ -1,5 +1,6 @@
 #include <Melon/Mutation.hpp>
 #include <Melon/Random.hpp>
+#include <math.h>
 #include <iostream>
 
 void randomResetting(NeuralNetwork* brain){
