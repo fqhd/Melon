@@ -4,7 +4,8 @@
 #include <Melon/NeuralNetwork.hpp>
 
 enum CrossoverMethod {
-    ONE_POINT_CROSSOVER
+    ONE_POINT_CROSSOVER,
+    UNIFORM_CROSSOVER
 };
 
 class Crossover {

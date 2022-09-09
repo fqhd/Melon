@@ -18,6 +18,12 @@ void onePointCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent
     }
 }
 
+void uniformCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2, NeuralNetwork* child){
+    for(int i = 0; i < child->numWeights; i++){
+        child->weights[i] = Random::randomInt(0, 1) ? parent1->weights[i] : parent2->weights[i];
+    }
+}
+
 Crossover::Crossover(Layer* model, int numLayers, int numBrains, int method){
     for(int i = 0; i < numBrains; i++){
         children.push_back(new NeuralNetwork(model, numLayers, RANDOM_WEIGHT_INITIALIZATION));
@@ -25,6 +31,12 @@ Crossover::Crossover(Layer* model, int numLayers, int numBrains, int method){
     switch(method){
         case ONE_POINT_CROSSOVER:
             crossoverFunc = onePointCrossover;
+        break;
+        case UNIFORM_CROSSOVER:
+            crossoverFunc = uniformCrossover;
+        break;
+        default:
+            crossoverFunc = uniformCrossover;
         break;
     };
 }

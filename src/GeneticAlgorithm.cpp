@@ -3,7 +3,7 @@
 #include <cstring>
 #include <iostream>
 
-GeneticAlgorithm::GeneticAlgorithm(Layer *model, int numLayers, int numBrains) : selection(numBrains, ROULETTE_SELECTION), crossover(model, numLayers, numBrains, ONE_POINT_CROSSOVER), mutation(SCRAMBLE_MUTATION)
+GeneticAlgorithm::GeneticAlgorithm(Layer *model, int numLayers, int numBrains) : selection(numBrains, ROULETTE_SELECTION), crossover(model, numLayers, numBrains, UNIFORM_CROSSOVER), mutation(SCRAMBLE_MUTATION)
 {
     for (int i = 0; i < numBrains; i++)
     {
@@ -42,10 +42,6 @@ void GeneticAlgorithm::performGeneticAlgorithm()
     mutation.performMutation(children);
 
     // TODO: Copy childrens array into brains array
-
-    // parents[0]->print();
-    // parents[1]->print();
-    // children[0]->print();
 }
 
 void GeneticAlgorithm::setBrainFitness(int index, double fitness){
