@@ -29,6 +29,12 @@ Crossover::Crossover(Layer* model, int numLayers, int numBrains, int method){
     };
 }
 
+Crossover::~Crossover(){
+    for(int i = 0; i < children.size(); i++){
+        delete children[i];
+    }
+}
+
 std::vector<NeuralNetwork*> Crossover::performCrossover(const std::vector<NeuralNetwork*>& parents){
     int index = 0;
     for(int i = 0; i < children.size(); i++){

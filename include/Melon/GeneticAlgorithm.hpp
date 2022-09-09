@@ -10,6 +10,7 @@ class GeneticAlgorithm {
 public:
 
     GeneticAlgorithm(Layer* model, int numLayers, int populationCount);
+    ~GeneticAlgorithm();
     void feedForward();
     float* getBrainInputs(int brainIndex);
     float* getBrainOutputs(int brainIndex);

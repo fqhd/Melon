@@ -1,5 +1,6 @@
 #include <Melon/Mutation.hpp>
 #include <Melon/Random.hpp>
+#include <iostream>
 
 void randomResetting(NeuralNetwork* brain){
     double weightMutationChance = 0.01; // 1% chance of mutation
@@ -17,8 +18,27 @@ void randomResetting(NeuralNetwork* brain){
     }
 }
 
-void scrambleMutation(NeuralNetwork* brain){
+void shuffle(float* array, int size){
+    int m = size;
+    float t = 0;
+    int i = 0;
 
+    while(m){
+        i = floor(Random::randomFloat(0.0f, 0.999f) * m--);
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+}
+
+void scrambleMutation(NeuralNetwork* brain){
+    float chunkCut = 0.5; // Chunk that will be scrambled is 50% of the weights
+    int weightChunkSize = (brain->numWeights * chunkCut);
+
+    if(weightChunkSize != 0){
+        int chunkPos = Random::randomInt(0, brain->numWeights - weightChunkSize - 1);
+        shuffle(brain->weights + chunkPos, weightChunkSize);
+    }
 }
 
 Mutation::Mutation(int method){

@@ -11,6 +11,7 @@ class Crossover {
 public:
 
     Crossover(Layer* model, int numLayers, int numBrains, int method);
+    ~Crossover();
     std::vector<NeuralNetwork*> performCrossover(const std::vector<NeuralNetwork*>& parents);
 
 private:
