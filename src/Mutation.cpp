@@ -20,17 +20,19 @@ void randomResetting(NeuralNetwork* brain){
 }
 
 void nudgeMutation(NeuralNetwork* brain){
+    float nudgeAmount = 0.2;
+    
     double weightMutationChance = 0.01; // 1% chance of mutation
     for(int i = 0; i < brain->numWeights; i++){
         if(Random::randomDouble(0.0, 1.0) <= weightMutationChance){
-            brain->weights[i] += Random::randomFloat(0.0f, 1.0f);
+            brain->weights[i] += Random::randomFloat(-nudgeAmount, nudgeAmount);
         }
     }
 
     double biasMutationChance = 0.01; // 1% chance of mutation
     for(int i = 0; i < brain->numBiases; i++){
         if(Random::randomDouble(0.0, 1.0) <= biasMutationChance){
-            brain->biases[i] += Random::randomFloat(0.0f, 1.0f);
+            brain->biases[i] += Random::randomFloat(-nudgeAmount, nudgeAmount);
         }
     }
 }
