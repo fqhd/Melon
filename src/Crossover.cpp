@@ -22,13 +22,16 @@ void uniformCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2
     for(int i = 0; i < child->numWeights; i++){
         child->weights[i] = Random::randomInt(0, 1) ? parent1->weights[i] : parent2->weights[i];
     }
+    for(int i = 0; i < child->numBiases; i++){
+        child->biases[i] = Random::randomInt(0, 1) ? parent1->biases[i] : parent2->biases[i];
+    }
 }
 
 void mergeCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2, NeuralNetwork* child){
     for(int i = 0; i < child->numWeights; i++){
         child->weights[i] = (parent1->weights[i] + parent2->weights[i]) / 2.0f;
     }
-    for(int i = 0; i < child->numWeights; i++){
+    for(int i = 0; i < child->numBiases; i++){
         child->biases[i] = (parent1->biases[i] + parent2->biases[i]) / 2.0f;
     }
 }
