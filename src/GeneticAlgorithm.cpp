@@ -41,7 +41,9 @@ void GeneticAlgorithm::performGeneticAlgorithm()
     std::vector<NeuralNetwork*> children = crossover.performCrossover(parents);
     mutation.performMutation(children);
 
-    // TODO: Copy childrens array into brains array
+    for(int i = 0; i < children.size(); i++){
+        *brains[i] = *children[i];
+    }
 }
 
 void GeneticAlgorithm::setBrainFitness(int index, double fitness){

@@ -25,6 +25,7 @@ public:
     NeuralNetwork(Layer* model, int numLayers, int method);
     ~NeuralNetwork();
 
+    void operator=(const NeuralNetwork& other);
     float* getInputs();
     float* getOutputs();
     void predict();
@@ -50,6 +51,5 @@ private:
     int numInputs;
     int numOutputs;
     float* realTimeData;
-    
 
 };
