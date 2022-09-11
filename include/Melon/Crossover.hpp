@@ -12,9 +12,11 @@ enum CrossoverMethod {
 class Crossover {
 public:
 
-    Crossover(Layer* model, int numLayers, int numBrains, int method);
+    void init(Layer* model, int numLayers, int numBrains);
     ~Crossover();
     std::vector<NeuralNetwork*> performCrossover(const std::vector<NeuralNetwork*>& parents);
+
+    int method = AVERAGE_CROSSOVER;
 
 private:
 

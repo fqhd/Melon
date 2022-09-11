@@ -36,24 +36,10 @@ void averageCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2
     }
 }
 
-Crossover::Crossover(Layer* model, int numLayers, int numBrains, int method){
+void Crossover::init(Layer* model, int numLayers, int numBrains){
     for(int i = 0; i < numBrains; i++){
         children.push_back(new NeuralNetwork(model, numLayers, RANDOM_WEIGHT_INITIALIZATION));
     }
-    switch(method){
-        case ONE_POINT_CROSSOVER:
-            crossoverFunc = onePointCrossover;
-        break;
-        case UNIFORM_CROSSOVER:
-            crossoverFunc = uniformCrossover;
-        break;
-        case AVERAGE_CROSSOVER:
-            crossoverFunc = averageCrossover;
-        break;
-        default:
-            crossoverFunc = uniformCrossover;
-        break;
-    };
 }
 
 Crossover::~Crossover(){
@@ -66,11 +52,23 @@ std::vector<NeuralNetwork*> Crossover::performCrossover(const std::vector<Neural
     int index = 0;
     for(int i = 0; i < children.size(); i++){
         int p1 = index;
-        int p2 = index+1;
-        crossoverFunc(parents[p1], parents[p2], children[i]);
+        int p2 = index + 1;
+        switch(method){
+            case ONE_POINT_CROSSOVER:
+                onePointCrossover(parents[p1], parents[p2], children[i]);
+            break;
+            case UNIFORM_CROSSOVER:
+                uniformCrossover(parents[p1], parents[p2], children[i]);
+            break;
+            case AVERAGE_CROSSOVER:
+                averageCrossover(parents[p1], parents[p2], children[i]);
+            break;
+            default:
+                uniformCrossover(parents[p1], parents[p2], children[i]);
+            break;
+        };
         index += 2;
     }
-
     return children;
 }
 

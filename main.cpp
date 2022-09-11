@@ -20,7 +20,8 @@ int main(){
         }
     };
 
-    GeneticAlgorithm algo(model, 3, 200);
+    GeneticAlgorithm algo;
+    algo.init(model, 3, 200);
 
     for(int i = 0; i < 200; i++){
         float* inputs = algo.getBrainInputs(i);

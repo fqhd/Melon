@@ -3,8 +3,9 @@
 #include <cstring>
 #include <iostream>
 
-GeneticAlgorithm::GeneticAlgorithm(Layer *model, int numLayers, int numBrains) : selection(numBrains, ROULETTE_SELECTION), crossover(model, numLayers, numBrains, UNIFORM_CROSSOVER), mutation(SCRAMBLE_MUTATION)
-{
+void GeneticAlgorithm::init(Layer *model, int numLayers, int numBrains) {
+    selection.init(numBrains);
+    crossover.init(model, numLayers, numBrains);
     for (int i = 0; i < numBrains; i++)
     {
         brains.push_back(new NeuralNetwork(model, numLayers, RANDOM_WEIGHT_INITIALIZATION));

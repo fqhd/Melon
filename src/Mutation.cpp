@@ -3,15 +3,14 @@
 #include <math.h>
 #include <iostream>
 
-void randomResetting(NeuralNetwork* brain){
-    double weightMutationChance = 0.01; // 1% chance of mutation
+
+void Mutation::randomResetting(NeuralNetwork* brain){
     for(int i = 0; i < brain->numWeights; i++){
         if(Random::randomDouble(0.0, 1.0) <= weightMutationChance){
             brain->weights[i] = Random::randomFloat(0.0f, 1.0f);
         }
     }
 
-    double biasMutationChance = 0.01; // 1% chance of mutation
     for(int i = 0; i < brain->numBiases; i++){
         if(Random::randomDouble(0.0, 1.0) <= biasMutationChance){
             brain->biases[i] = Random::randomFloat(0.0f, 1.0f);
@@ -19,17 +18,13 @@ void randomResetting(NeuralNetwork* brain){
     }
 }
 
-void nudgeMutation(NeuralNetwork* brain){
-    float nudgeAmount = 0.2;
-    
-    double weightMutationChance = 0.01; // 1% chance of mutation
+void Mutation::nudgeMutation(NeuralNetwork* brain){
     for(int i = 0; i < brain->numWeights; i++){
         if(Random::randomDouble(0.0, 1.0) <= weightMutationChance){
             brain->weights[i] += Random::randomFloat(-nudgeAmount, nudgeAmount);
         }
     }
 
-    double biasMutationChance = 0.01; // 1% chance of mutation
     for(int i = 0; i < brain->numBiases; i++){
         if(Random::randomDouble(0.0, 1.0) <= biasMutationChance){
             brain->biases[i] += Random::randomFloat(-nudgeAmount, nudgeAmount);
@@ -50,7 +45,7 @@ void shuffle(float* array, int size){
     }
 }
 
-void scrambleMutation(NeuralNetwork* brain){
+void Mutation::scrambleMutation(NeuralNetwork* brain){
     float chunkCut = 0.5; // Chunk that will be scrambled is 50% of the weights
     int weightChunkSize = (brain->numWeights * chunkCut);
 
@@ -67,22 +62,22 @@ void scrambleMutation(NeuralNetwork* brain){
     }
 }
 
-Mutation::Mutation(int method){
+void Mutation::performMutation(const std::vector<NeuralNetwork*>& brains){
     switch(method){
         case RANDOM_RESETTING:
-            mutationFunc = randomResetting;
+            for(unsigned int i = 0; i < brains.size(); i++){
+                randomResetting(brains[i]);
+            }
         break;
         case SCRAMBLE_MUTATION:
-            mutationFunc = scrambleMutation;
+            for(unsigned int i = 0; i < brains.size(); i++){
+                scrambleMutation(brains[i]);
+            }
         break;
-        default:
-            mutationFunc = randomResetting;
+        case NUDGE_MUTATION:
+            for(unsigned int i = 0; i < brains.size(); i++){
+                nudgeMutation(brains[i]);
+            }
         break;
-    }
-}
-
-void Mutation::performMutation(const std::vector<NeuralNetwork*>& brains){
-    for(unsigned int i = 0; i < brains.size(); i++){
-        mutationFunc(brains[i]);
     }
 }

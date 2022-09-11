@@ -12,8 +12,11 @@ enum SelectionMethod {
 class Selection {
 public:
 
-    Selection(int numBrains, int method);
+    void init(int numBrains);
     std::vector<NeuralNetwork*> performSelection(const std::vector<NeuralNetwork*>& brains);
+
+    int K = 0;
+    int method = ROULETTE_SELECTION;
 
 private:
 
@@ -24,7 +27,6 @@ private:
 
     int numParents;
     int numBrains;
-    int method;
     std::vector<NeuralNetwork*> parents;
 
 };

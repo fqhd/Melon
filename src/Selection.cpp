@@ -2,9 +2,8 @@
 #include <Melon/Random.hpp>
 #include <iostream>
 
-Selection::Selection(int _numBrains, int _method){
+void Selection::init(int _numBrains){
     numBrains = _numBrains;
-    method = _method;
     numParents = _numBrains * 2;
 
     parents.reserve(numParents);
@@ -94,8 +93,6 @@ void Selection::stochasticUniversalSampling(const std::vector<NeuralNetwork*>& b
 }
 
 void Selection::tournamentSelection(const std::vector<NeuralNetwork*>& brains){
-    int K = numParents * 0.01;
-    
     for(int i = 0; i < numParents; i++){
         int highestFitnessIndex = Random::randomInt(0, numBrains - 1);
         for(int j = 0; j < K - 1; j++){
