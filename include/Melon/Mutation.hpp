@@ -12,12 +12,13 @@ enum MutationMethods {
 class Mutation {
 public:
 
+    Mutation();
     void performMutation(const std::vector<NeuralNetwork*>& brains);
 
-    float weightMutationChance = 0.01;
-    float biasMutationChance = 0.01;
-    float nudgeAmount = 0.2;
-    int method = RANDOM_RESETTING;
+    float weightMutationChance;
+    float biasMutationChance;
+    float nudgeAmount;
+    int method;
 
 private:
 

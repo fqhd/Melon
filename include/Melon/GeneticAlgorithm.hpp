@@ -9,19 +9,16 @@
 class GeneticAlgorithm {
 public:
 
-    void init(Layer* model, int numLayers, int populationCount);
-    ~GeneticAlgorithm();
-    void feedForward();
-    float* getBrainInputs(int brainIndex);
-    float* getBrainOutputs(int brainIndex);
+    void init();
     void performGeneticAlgorithm();
-    void setBrainFitness(int index, double fitness);
+    void destroy();
+    
+    std::vector<NeuralNetwork*> brains;
 
 private:
 
     Selection selection;
     Crossover crossover;
     Mutation mutation;
-    std::vector<NeuralNetwork*> brains;   
 
 };

@@ -175,5 +175,4 @@ void NeuralNetwork::initializeWeights(int method){
 void NeuralNetwork::operator=(const NeuralNetwork& other){
     memcpy(weights, other.weights, sizeof(other.numWeights) * sizeof(float));
     memcpy(biases, other.biases, sizeof(other.numBiases) * sizeof(float));
-    fitness = other.fitness;
 }

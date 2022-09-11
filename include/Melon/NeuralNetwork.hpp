@@ -37,7 +37,9 @@ public:
     float* biases;
     int numWeights;
     int numBiases;
-
+    Layer* model;
+    int numLayers;
+    
 private:
 
     // Weight initialization methods
@@ -46,8 +48,6 @@ private:
 
     void activateLayer(int offset, int numNodes, int func, float* realTimeData);
 
-    Layer* model;
-    int numLayers;
     int numInputs;
     int numOutputs;
     float* realTimeData;

@@ -5,6 +5,8 @@
 void Selection::init(int _numBrains){
     numBrains = _numBrains;
     numParents = _numBrains * 2;
+    method = ROULETTE_SELECTION;
+    K = 0;
 
     parents.reserve(numParents);
 }

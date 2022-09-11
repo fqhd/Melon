@@ -2,6 +2,10 @@
 #include <Melon/Random.hpp>
 #include <iostream>
 
+Crossover::Crossover(){
+    method = AVERAGE_CROSSOVER;
+}
+
 void onePointCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2, NeuralNetwork* child){
     int randomWeightPoint = Random::randomInt(0, child->numWeights);
     memcpy(child->weights, parent1->weights, sizeof(float) * randomWeightPoint);
@@ -42,7 +46,7 @@ void Crossover::init(Layer* model, int numLayers, int numBrains){
     }
 }
 
-Crossover::~Crossover(){
+void Crossover::destroy(){
     for(int i = 0; i < children.size(); i++){
         delete children[i];
     }

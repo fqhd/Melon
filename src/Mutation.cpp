@@ -3,6 +3,12 @@
 #include <math.h>
 #include <iostream>
 
+Mutation::Mutation(){
+    weightMutationChance = 0.01;
+    biasMutationChance = 0.01;
+    nudgeAmount = 0.2;
+    method = RANDOM_RESETTING;
+}
 
 void Mutation::randomResetting(NeuralNetwork* brain){
     for(int i = 0; i < brain->numWeights; i++){

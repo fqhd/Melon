@@ -15,8 +15,8 @@ public:
     void init(int numBrains);
     std::vector<NeuralNetwork*> performSelection(const std::vector<NeuralNetwork*>& brains);
 
-    int K = 0;
-    int method = ROULETTE_SELECTION;
+    int K;
+    int method;
 
 private:
 
