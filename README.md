@@ -39,11 +39,6 @@ int main(){
     // Initialize the genetic algorithm
     algo.init();
 
-    // Add all neural networks you want to the genetic algorithm
-    for(int i = 0; i < 200; i++){
-        algo.brains.push_back(new NeuralNetwork(model, 3, RANDOM_WEIGHT_INITIALIZATION));
-    }
-
     int numGenerations = 100;
     for(int i = 0; i < numGenerations; i++){
         // Here you would run a simulation for all neural networks in order to assign each of them a fitness value
