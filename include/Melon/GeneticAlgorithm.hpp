@@ -15,8 +15,6 @@ public:
     
     std::vector<NeuralNetwork*> brains;
 
-private:
-
     Selection selection;
     Crossover crossover;
     Mutation mutation;

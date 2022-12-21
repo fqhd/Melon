@@ -2,8 +2,11 @@
 #include <Melon/Random.hpp>
 #include <iostream>
 
-Crossover::Crossover(){
-    method = AVERAGE_CROSSOVER;
+void Crossover::init(Layer* model, int numLayers, int numBrains) {
+    method = CrossoverMethod::AVERAGE;
+    for (int i = 0; i < numBrains; i++) {
+        children.push_back(new NeuralNetwork(model, numLayers, RANDOM_WEIGHT_INITIALIZATION));
+    }
 }
 
 void onePointCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2, NeuralNetwork* child){
@@ -40,31 +43,19 @@ void averageCrossover(const NeuralNetwork* parent1, const NeuralNetwork* parent2
     }
 }
 
-void Crossover::init(Layer* model, int numLayers, int numBrains){
-    for(int i = 0; i < numBrains; i++){
-        children.push_back(new NeuralNetwork(model, numLayers, RANDOM_WEIGHT_INITIALIZATION));
-    }
-}
-
-void Crossover::destroy(){
-    for(int i = 0; i < children.size(); i++){
-        delete children[i];
-    }
-}
-
 std::vector<NeuralNetwork*> Crossover::performCrossover(const std::vector<NeuralNetwork*>& parents){
     int index = 0;
     for(int i = 0; i < children.size(); i++){
         int p1 = index;
         int p2 = index + 1;
         switch(method){
-            case ONE_POINT_CROSSOVER:
+            case CrossoverMethod::ONE_POINT:
                 onePointCrossover(parents[p1], parents[p2], children[i]);
             break;
-            case UNIFORM_CROSSOVER:
+            case CrossoverMethod::UNIFORM:
                 uniformCrossover(parents[p1], parents[p2], children[i]);
             break;
-            case AVERAGE_CROSSOVER:
+            case CrossoverMethod::AVERAGE:
                 averageCrossover(parents[p1], parents[p2], children[i]);
             break;
             default:
@@ -76,3 +67,8 @@ std::vector<NeuralNetwork*> Crossover::performCrossover(const std::vector<Neural
     return children;
 }
 
+void Crossover::destroy() {
+    for (int i = 0; i < children.size(); i++) {
+        delete children[i];
+    }
+}

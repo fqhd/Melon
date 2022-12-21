@@ -3,21 +3,20 @@
 #include <vector>
 #include <Melon/NeuralNetwork.hpp>
 
-enum CrossoverMethod {
-    ONE_POINT_CROSSOVER,
-    UNIFORM_CROSSOVER,
-    AVERAGE_CROSSOVER
+enum class CrossoverMethod : int {
+    ONE_POINT,
+    UNIFORM,
+    AVERAGE
 };
 
 class Crossover {
 public:
 
-    Crossover();
     void init(Layer* model, int numLayers, int numBrains);
     void destroy();
     std::vector<NeuralNetwork*> performCrossover(const std::vector<NeuralNetwork*>& parents);
 
-    int method;
+    CrossoverMethod method;
 
 private:
 

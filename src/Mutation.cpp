@@ -4,10 +4,10 @@
 #include <iostream>
 
 Mutation::Mutation(){
-    weightMutationChance = 0.01;
-    biasMutationChance = 0.01;
-    nudgeAmount = 0.2;
-    method = RANDOM_RESETTING;
+    weightMutationChance = 0.001f;
+    biasMutationChance = 0.001f;
+    nudgeAmount = 0.2f;
+    method = MutationMethod::RANDOM_RESETTING;
 }
 
 void Mutation::randomResetting(NeuralNetwork* brain){
@@ -44,7 +44,7 @@ void shuffle(float* array, int size){
     int i = 0;
 
     while(m){
-        i = floor(Random::randomFloat(0.0f, 0.999f) * m--);
+        i = (int)floor(Random::randomFloat(0.0f, 0.999f) * m--);
         t = array[m];
         array[m] = array[i];
         array[i] = t;
@@ -53,14 +53,14 @@ void shuffle(float* array, int size){
 
 void Mutation::scrambleMutation(NeuralNetwork* brain){
     float chunkCut = 0.5; // Chunk that will be scrambled is 50% of the weights
-    int weightChunkSize = (brain->numWeights * chunkCut);
+    int weightChunkSize = (int)(brain->numWeights * chunkCut);
 
     if(weightChunkSize != 0){
         int chunkPos = Random::randomInt(0, brain->numWeights - weightChunkSize - 1);
         shuffle(brain->weights + chunkPos, weightChunkSize);
     }
 
-    int biasChunkSize = (brain->numBiases * chunkCut);
+    int biasChunkSize = (int)(brain->numBiases * chunkCut);
 
     if(biasChunkSize != 0){
         int chunkPos = Random::randomInt(0, brain->numBiases - biasChunkSize - 1);
@@ -70,17 +70,17 @@ void Mutation::scrambleMutation(NeuralNetwork* brain){
 
 void Mutation::performMutation(const std::vector<NeuralNetwork*>& brains){
     switch(method){
-        case RANDOM_RESETTING:
+        case MutationMethod::RANDOM_RESETTING:
             for(unsigned int i = 0; i < brains.size(); i++){
                 randomResetting(brains[i]);
             }
         break;
-        case SCRAMBLE_MUTATION:
+        case MutationMethod::SCRAMBLE:
             for(unsigned int i = 0; i < brains.size(); i++){
                 scrambleMutation(brains[i]);
             }
         break;
-        case NUDGE_MUTATION:
+        case MutationMethod::NUDGE:
             for(unsigned int i = 0; i < brains.size(); i++){
                 nudgeMutation(brains[i]);
             }

@@ -4,7 +4,7 @@
 #include <Melon/Random.hpp>
 #include <iostream>
 
-#define EULER_NUMBER_F 2.71828182846
+#define EULER_NUMBER_F 2.71828182846f
 
 float sigmoid(float x) {
     return (1 / (1 + powf(EULER_NUMBER_F, -x)));
@@ -173,6 +173,6 @@ void NeuralNetwork::initializeWeights(int method){
 }
 
 void NeuralNetwork::operator=(const NeuralNetwork& other){
-    memcpy(weights, other.weights, sizeof(other.numWeights) * sizeof(float));
-    memcpy(biases, other.biases, sizeof(other.numBiases) * sizeof(float));
+    memcpy(weights, other.weights, other.numWeights * sizeof(float));
+    memcpy(biases, other.biases, other.numBiases * sizeof(float));
 }

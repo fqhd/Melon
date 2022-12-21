@@ -3,10 +3,10 @@
 #include <Melon/NeuralNetwork.hpp>
 #include <vector>
 
-enum MutationMethods {
+enum class MutationMethod : int {
     RANDOM_RESETTING,
-    SCRAMBLE_MUTATION,
-    NUDGE_MUTATION
+    SCRAMBLE,
+    NUDGE
 };
 
 class Mutation {
@@ -18,7 +18,7 @@ public:
     float weightMutationChance;
     float biasMutationChance;
     float nudgeAmount;
-    int method;
+    MutationMethod method;
 
 private:
 

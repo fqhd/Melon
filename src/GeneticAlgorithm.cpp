@@ -4,8 +4,11 @@
 #include <iostream>
 
 void GeneticAlgorithm::init() {
-    selection.init(brains.size());
-    crossover.init(brains[0]->model, brains[0]->numLayers, brains.size());
+    if (brains.size() == 0) {
+        std::cout << "Add brains(NeuralNetworks) before initializing genetic algorithm" << std::endl;
+        return;
+    }
+    crossover.init(brains[0]->model, brains[0]->numLayers, (int)brains.size());
 }
 
 void GeneticAlgorithm::performGeneticAlgorithm()

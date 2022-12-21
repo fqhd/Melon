@@ -2,21 +2,21 @@
 #include <Melon/NeuralNetwork.hpp>
 #include <vector>
 
-enum SelectionMethod {
-    ROULETTE_SELECTION,
-    RANK_SELECTION,
+enum class SelectionMethod : int {
+    ROULETTE,
+    RANK,
     STOCHASTIC_UNIVERSAL_SAMPLING,
-    TOURNAMENT_SELECTION,
+    TOURNAMENT,
 };
 
 class Selection {
 public:
 
-    void init(int numBrains);
+    Selection();
     std::vector<NeuralNetwork*> performSelection(const std::vector<NeuralNetwork*>& brains);
 
     int K;
-    int method;
+    SelectionMethod method;
 
 private:
 
@@ -25,8 +25,6 @@ private:
     void stochasticUniversalSampling(const std::vector<NeuralNetwork*>& brains);
     void tournamentSelection(const std::vector<NeuralNetwork*>& brains);
 
-    int numParents;
-    int numBrains;
     std::vector<NeuralNetwork*> parents;
 
 };
